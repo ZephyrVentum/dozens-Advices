@@ -1,6 +1,6 @@
+import 'package:dozens_advices/resources/styles.dart';
 import 'package:dozens_advices/screens/home_screen.dart';
 import 'package:dozens_advices/screens/splash_screen.dart';
-import 'package:dozens_advices/utils/FadeRoute.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -8,12 +8,12 @@ class DozensAdvicesApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     //Use only portrait orientation
-    SystemChrome.setPreferredOrientations([
-      DeviceOrientation.portraitUp,
-      DeviceOrientation.portraitDown,
-    ]);
+//    SystemChrome.setPreferredOrientations([
+//      DeviceOrientation.portraitUp,
+//      DeviceOrientation.portraitDown,
+//    ]);
     return MaterialApp(
-        theme: ThemeData(backgroundColor: Colors.white),
+        theme: Styles.getInstance().appThemeData,
         debugShowCheckedModeBanner: false,
         onGenerateRoute: (setting) {
           switch (setting.name) {

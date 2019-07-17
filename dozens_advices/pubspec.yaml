@@ -24,6 +24,7 @@ dependencies:
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^0.1.2
   gradient_app_bar: ^0.0.1
+  gradient_bottom_navigation_bar: ^1.0.0+4
 
 dev_dependencies:
   flutter_test:

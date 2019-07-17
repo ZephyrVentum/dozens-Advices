@@ -1,3 +1,5 @@
+import 'package:dozens_advices/resources/strings.dart';
+import 'package:dozens_advices/resources/styles.dart';
 import 'package:dozens_advices/screens/home_screen.dart';
 import 'package:dozens_advices/utils/FadeRoute.dart';
 import 'package:flutter/material.dart';
@@ -29,7 +31,6 @@ class _ScreenLayoutState extends State<_ScreenLayout> {
   @override
   void initState() {
     super.initState();
-
   }
 
   _startAnimationAndNextScreen() {
@@ -73,24 +74,11 @@ class _ScreenLayoutState extends State<_ScreenLayout> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: <Widget>[
-                          Text("dozens",
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .display1
-                                  .copyWith(
-                                      color: Colors.black,
-                                      fontFamily: 'GilroyExtraBold',
-                                      fontSize: 42,
-                                      fontStyle: FontStyle.normal)),
+                          Text(Strings.dozensLogo,
+                              style: Styles.boldLogoTextStyle(context)),
                           SizedBox(width: 16),
-                          Text("Advices",
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .display1
-                                  .copyWith(
-                                      color: Colors.black,
-                                      fontFamily: 'GilroyRegular',
-                                      fontSize: 42))
+                          Text(Strings.advicesLogo,
+                              style: Styles.regularLogoTextStyle(context))
                         ],
                       ),
                     ),
@@ -136,8 +124,14 @@ class _ScreenLayoutState extends State<_ScreenLayout> {
                       gradient: LinearGradient(
                           begin: Alignment.topCenter,
                           end: Alignment.bottomCenter,
-                          stops: [0, 1],
-                          colors: [Color(0xff7FC6FF), Color(0xff4678FF)])))
+                          stops: [
+                            0,
+                            1
+                          ],
+                          colors: [
+                            Styles.startGradientColor,
+                            Styles.endGradientColor
+                          ])))
             ],
           ),
         )
