@@ -14,7 +14,7 @@ description: Your personal advices banking.
 version: 1.0.0+1
 
 environment:
-  sdk: ">=2.1.0 <3.0.0"
+  sdk: ">=2.2.0 <3.0.0"
 
 dependencies:
   flutter:
@@ -23,8 +23,11 @@ dependencies:
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^0.1.2
+  gradient_app_bar: ^0.0.1
 
 dev_dependencies:
+  flutter_test:
+    sdk: flutter
   flutter_launcher_icons: "0.7.2+1"
 
 flutter_icons:
@@ -32,8 +35,7 @@ flutter_icons:
   ios: true
   image_path: "assets/app_icon.png"
 
-  flutter_test:
-    sdk: flutter
+
 
 
 # For information on the generic Dart part of this file, see the
@@ -41,16 +43,22 @@ flutter_icons:
 
 # The following section is specific to Flutter.
 flutter:
-
-  # The following line ensures that the Material Icons font is
-  # included with your application, so that you can use the icons in
-  # the material Icons class.
   uses-material-design: true
+  assets:
+    - assets/app_icon.png
+    - assets/images/d_logo.png
+    - assets/images/a_logo.png
 
-assets:
-  - assets/app_icon.png
-  # To add assets to your application, add an assets section, like this:
-  # assets:
+  fonts:
+    - family: GilroyExtraBold
+      fonts:
+        - asset: fonts/gilroy_extrabold.otf
+          style: normal
+
+    - family: GilroyRegular
+      fonts:
+        - asset: fonts/gilroy_regular.otf
+          style: normal
   #  - images/a_dot_burr.jpeg
   #  - images/a_dot_ham.jpeg
 
