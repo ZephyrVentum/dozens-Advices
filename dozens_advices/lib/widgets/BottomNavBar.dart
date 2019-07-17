@@ -327,32 +327,38 @@ class _BottomNavigationTile extends StatelessWidget {
         break;
     }
     return Expanded(
-      flex: position == 0 ? 1 : size,
-      child: Semantics(
-        container: true,
-        header: true,
-        selected: selected,
-        child: Stack(
-          children: <Widget>[
-            InkResponse(
-              splashColor: position == 0
-                  ? Colors.transparent
-                  : Theme.of(context).splashColor,
-              onTap: onTap,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                mainAxisSize: MainAxisSize.min,
-                children: <Widget>[
-                  _buildIcon(),
-                  label,
-                ],
+      flex: position == 0 ? 0 : 1,
+      child: Padding(
+        padding: EdgeInsets.only(left: position == 0 ? 55 : 0),
+        child: Semantics(
+          container: true,
+          header: true,
+          selected: selected,
+          child: Stack(
+            children: <Widget>[
+              InkResponse(
+                highlightColor: position == 0
+                    ? Colors.transparent
+                    : Theme.of(context).splashColor,
+                splashColor: position == 0
+                    ? Colors.transparent
+                    : Theme.of(context).splashColor,
+                onTap: onTap,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  mainAxisSize: MainAxisSize.min,
+                  children: <Widget>[
+                    _buildIcon(),
+                    label,
+                  ],
+                ),
               ),
-            ),
-            Semantics(
-              label: indexLabel,
-            )
-          ],
+              Semantics(
+                label: indexLabel,
+              )
+            ],
+          ),
         ),
       ),
     );
@@ -545,7 +551,6 @@ class _GradientBottomNavigationBarState
     return DefaultTextStyle.merge(
       overflow: TextOverflow.ellipsis,
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: tiles,
       ),
     );

@@ -100,18 +100,24 @@ class _ScreenLayoutState extends State<_ScreenLayout> {
                             curve: Curves.decelerate,
                             transform: Matrix4.translationValues(
                                 _dLetterOffset, 0.0, 0.0),
-                            child: Image(
-                                width: MediaQuery.of(context).size.width * 0.3,
-                                image: AssetImage("assets/images/d_logo.png")),
+                            child: Hero(
+                              tag: "key1",
+                              child: Image(
+                                  width: MediaQuery.of(context).size.width * 0.3,
+                                  image: AssetImage("assets/images/d_logo.png")),
+                            ),
                             duration: _splashDuration,
                           ),
                           AnimatedContainer(
                             curve: Curves.decelerate,
                             transform: Matrix4.translationValues(
                                 _aLetterOffset, 0.0, 0.0),
-                            child: Image(
-                                width: MediaQuery.of(context).size.width * 0.35,
-                                image: AssetImage("assets/images/a_logo.png")),
+                            child: Hero(
+                              tag: "key2",
+                              child: Image(
+                                  width: MediaQuery.of(context).size.width * 0.35,
+                                  image: AssetImage("assets/images/a_logo.png")),
+                            ),
                             duration: _splashDuration,
                           )
                         ],

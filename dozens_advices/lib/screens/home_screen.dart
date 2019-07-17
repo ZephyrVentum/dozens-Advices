@@ -5,7 +5,6 @@ import 'package:dozens_advices/widgets/BottomNavBar.dart';
 import 'package:flutter/material.dart';
 import 'package:gradient_app_bar/gradient_app_bar.dart';
 
-
 class HomeScreen {
   static const String ROUTE = "/home";
 
@@ -34,23 +33,61 @@ class _ScreenLayoutState extends State<_ScreenLayout>
   Widget build(BuildContext context) {
     return Stack(children: <Widget>[
       Scaffold(
-        bottomNavigationBar: Container(
-          color: Styles.endGradientColor,
-
-          child: GradientBottomNavigationBar(
-            backgroundColorStart: Styles.startGradientColor,
-            backgroundColorEnd: Styles.endGradientColor,
-            fixedColor: Colors.black,
-            currentIndex: 1,
-            items: <BottomNavigationBarItem>[
-              BottomNavigationBarItem(
-                  icon: Container(), title: Container()),
-              BottomNavigationBarItem(
-                  icon: Icon(Icons.business), title: Text("fy lox")),
-              BottomNavigationBarItem(
-                  icon: Icon(Icons.school), title: Text('School')),
-            ],
-          ),
+        bottomNavigationBar: Stack(
+          children: <Widget>[
+            Container(
+              padding: EdgeInsets.only(top: 24),
+              child: GradientBottomNavigationBar(
+                backgroundColorStart: Styles.startGradientColor,
+                backgroundColorEnd: Styles.endGradientColor,
+                fixedColor: Colors.black,
+                currentIndex: 2,
+                type: BottomNavigationBarType.fixed,
+                items: <BottomNavigationBarItem>[
+                  BottomNavigationBarItem(
+                      icon: Container(), title: Container()),
+                  BottomNavigationBarItem(
+                      icon: Icon(Icons.business), title: Text("fy lox")),
+                  BottomNavigationBarItem(
+                      icon: Icon(Icons.settings), title: Text("fy lox2")),
+                  BottomNavigationBarItem(
+                      icon: Icon(Icons.school), title: Text('School')),
+                ],
+              ),
+            ),
+            Container(
+              transform: Matrix4.translationValues(-15, 15, 0),
+              width: 80,
+              height: 80,
+              child: Padding(
+                padding: const EdgeInsets.only(left: 9, bottom: 12),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  mainAxisSize: MainAxisSize.max,
+                  children: <Widget>[
+                    Hero(
+                      tag: "key1",
+                      child: Image(
+                          width: 20,
+                          image: AssetImage("assets/images/d_logo.png")),
+                    ),
+                    Hero(
+                      tag: "key2",
+                      child: Image(
+                          width: 21,
+                          image: AssetImage("assets/images/a_logo.png")),
+                    )
+                  ],
+                ),
+              ),
+              decoration: new BoxDecoration(
+                color: Styles.startGradientColor,
+                border: Border.all(color: Colors.black, width: 6),
+                shape: BoxShape.circle,
+              ),
+            ),
+          ],
         ),
         appBar: GradientAppBar(
           backgroundColorStart: Styles.startGradientColor,
@@ -81,30 +118,7 @@ class _ScreenLayoutState extends State<_ScreenLayout>
       ),
       Column(
         mainAxisAlignment: MainAxisAlignment.end,
-        children: <Widget>[
-          Container(
-            transform: Matrix4.translationValues(-15, 15, 0),
-            width: 80,
-            height: 80,
-            child: Padding(
-              padding: const EdgeInsets.only(left: 9, bottom: 12),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                crossAxisAlignment: CrossAxisAlignment.end,
-                mainAxisSize: MainAxisSize.max,
-                children: <Widget>[
-                  Image(width: 20, image: AssetImage("assets/images/d_logo.png")),
-                  Image(width: 21, image: AssetImage("assets/images/a_logo.png"))
-                ],
-              ),
-            ),
-            decoration: new BoxDecoration(
-              color: Styles.startGradientColor,
-              border: Border.all(color: Colors.black, width: 6),
-              shape: BoxShape.circle,
-            ),
-          ),
-        ],
+        children: <Widget>[],
       )
     ]);
   }
