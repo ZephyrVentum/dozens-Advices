@@ -33,6 +33,35 @@ class _ScreenLayoutState extends State<_ScreenLayout>
   Widget build(BuildContext context) {
     return Stack(children: <Widget>[
       Scaffold(
+        backgroundColor: Colors.grey,
+        appBar: GradientAppBar(
+          backgroundColorStart: Styles.startGradientColor,
+          backgroundColorEnd: Styles.endGradientColor,
+          title: RichText(
+              text: TextSpan(children: [
+            TextSpan(
+                text: Strings.dozensLogo,
+                style: Styles.boldAppBarTextStyle(context)),
+            TextSpan(text: "  "),
+            TextSpan(
+                text: Strings.advicesLogo,
+                style: Theme.of(context).textTheme.title)
+          ])),
+        ),
+        bottomNavigationBar:
+            BottomNavigationBar(backgroundColor: Colors.transparent, items: [
+          BottomNavigationBarItem(icon: Container(), title: Container()),
+          BottomNavigationBarItem(icon: Container(), title: Container())
+        ]),
+        body: Container(),
+      ),
+      _buildBottomNavTabBar(context)
+    ]);
+  }
+
+  Widget _buildBottomNavTabBar(BuildContext context) {
+    return Scaffold(
+        backgroundColor: Colors.transparent,
         bottomNavigationBar: Stack(
           children: <Widget>[
             Container(
@@ -41,17 +70,22 @@ class _ScreenLayoutState extends State<_ScreenLayout>
                 backgroundColorStart: Styles.startGradientColor,
                 backgroundColorEnd: Styles.endGradientColor,
                 fixedColor: Colors.black,
-                currentIndex: 2,
+                currentIndex: 3,
                 type: BottomNavigationBarType.fixed,
                 items: <BottomNavigationBarItem>[
                   BottomNavigationBarItem(
                       icon: Container(), title: Container()),
                   BottomNavigationBarItem(
-                      icon: Icon(Icons.business), title: Text("fy lox")),
+                      icon: Icon(Icons.tune),
+                      title: Text(Strings.configureTab)),
                   BottomNavigationBarItem(
-                      icon: Icon(Icons.settings), title: Text("fy lox2")),
+                      icon: Icon(Icons.list),
+                      title: Text(Strings.historyTab),
+                      activeIcon: Icon(Icons.format_list_bulleted)),
                   BottomNavigationBarItem(
-                      icon: Icon(Icons.school), title: Text('School')),
+                      icon: Icon(Icons.favorite_border),
+                      title: Text(Strings.favouritesTab),
+                      activeIcon: Icon(Icons.favorite)),
                 ],
               ),
             ),
@@ -88,38 +122,6 @@ class _ScreenLayoutState extends State<_ScreenLayout>
               ),
             ),
           ],
-        ),
-        appBar: GradientAppBar(
-          backgroundColorStart: Styles.startGradientColor,
-          backgroundColorEnd: Styles.endGradientColor,
-          title: RichText(
-              text: TextSpan(children: [
-            TextSpan(
-                text: Strings.dozensLogo,
-                style: Styles.boldAppBarTextStyle(context)),
-            TextSpan(text: " "),
-            TextSpan(
-                text: Strings.advicesLogo,
-                style: Theme.of(context).textTheme.title)
-          ])),
-        ),
-        body: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Container(
-              color: Colors.deepOrange,
-              child: SizedBox(
-                width: 50,
-                height: 50,
-              ),
-            ),
-          ],
-        ),
-      ),
-      Column(
-        mainAxisAlignment: MainAxisAlignment.end,
-        children: <Widget>[],
-      )
-    ]);
+        ));
   }
 }

@@ -573,7 +573,7 @@ class _GradientBottomNavigationBarState
           Positioned.fill(
             child: Material(
               // Casts shadow.
-              elevation: 0,
+              elevation: 8.0,
               color: Color(0x00000000),
               child: Container(
                 decoration: BoxDecoration(
