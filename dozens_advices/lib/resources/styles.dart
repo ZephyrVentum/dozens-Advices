@@ -33,4 +33,6 @@ class Styles {
 
   static const startGradientColor = Color(0xff7FC6FF);
   static const endGradientColor = Color(0xff4678FF);
+  static const highlightInkWellColor = Color(0x7f4678FF);
+  static const inactiveHomeTabColor = Color(0xff19325E);
 }

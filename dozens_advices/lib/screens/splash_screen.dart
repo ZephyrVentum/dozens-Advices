@@ -1,7 +1,7 @@
 import 'package:dozens_advices/resources/strings.dart';
 import 'package:dozens_advices/resources/styles.dart';
 import 'package:dozens_advices/screens/home_screen.dart';
-import 'package:dozens_advices/utils/FadeRoute.dart';
+import 'package:dozens_advices/utils/routes.dart';
 import 'package:flutter/material.dart';
 
 class SplashScreen extends StatelessWidget {
@@ -35,8 +35,8 @@ class _ScreenLayoutState extends State<_ScreenLayout> {
 
   _startAnimationAndNextScreen() {
     if (!_isAnimationStarted) {
-      _dLetterOffset = -MediaQuery.of(context).size.width * 0.3 - 200;
-      _aLetterOffset = MediaQuery.of(context).size.width * 0.35 + 500;
+      _dLetterOffset = -MediaQuery.of(context).size.height * 0.17 - 200;
+      _aLetterOffset = MediaQuery.of(context).size.height * 0.2 + 500;
       _isAnimationStarted = true;
       Future<void>.delayed(const Duration(milliseconds: 100), () {
         setState(() {
@@ -101,9 +101,9 @@ class _ScreenLayoutState extends State<_ScreenLayout> {
                             transform: Matrix4.translationValues(
                                 _dLetterOffset, 0.0, 0.0),
                             child: Hero(
-                              tag: "key1",
+                              tag: aHero,
                               child: Image(
-                                  width: MediaQuery.of(context).size.width * 0.3,
+                                  height: MediaQuery.of(context).size.height * 0.27,
                                   image: AssetImage("assets/images/d_logo.png")),
                             ),
                             duration: _splashDuration,
@@ -113,9 +113,9 @@ class _ScreenLayoutState extends State<_ScreenLayout> {
                             transform: Matrix4.translationValues(
                                 _aLetterOffset, 0.0, 0.0),
                             child: Hero(
-                              tag: "key2",
+                              tag: dHero,
                               child: Image(
-                                  width: MediaQuery.of(context).size.width * 0.35,
+                                  height: MediaQuery.of(context).size.height * 0.30,
                                   image: AssetImage("assets/images/a_logo.png")),
                             ),
                             duration: _splashDuration,

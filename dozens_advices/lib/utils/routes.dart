@@ -18,3 +18,6 @@ class FadeRoute<T> extends MaterialPageRoute<T> {
     return FadeTransition(opacity: animation, child: child);
   }
 }
+
+const dHero = "d_hero";
+const aHero = "a_hero";
