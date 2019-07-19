@@ -9,4 +9,4 @@ class InitialNewAdviceState extends NewAdviceState {
 class LoadingNewAdviceState extends NewAdviceState {
 }
 
-class 
+//class
