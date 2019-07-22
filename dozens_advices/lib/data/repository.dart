@@ -1,5 +1,6 @@
 import 'package:dozens_advices/data/database/database.dart';
 import 'package:dozens_advices/data/network/network_service.dart';
+import 'package:dozens_advices/data/network/slip_advice.dart';
 
 class Repository {
   NetworkService _networkService;
@@ -18,17 +19,19 @@ class Repository {
   }
 
   void getRandomAdvice(Function(Result<Advice>) completion) async {
-    _networkService.getRandomSlipAdvice().then((networkResult) {
-      complete<Advice>(networkResult, completion);
+    _networkService
+        .getRandomSlipAdvice()
+        .then((NetworkResult<SlipAdviceResponse> networkResult) {
+      complete(networkResult, completion);
     });
   }
 
-
-  complete<T extends Advice>(NetworkResult<T> networkResult, Function(Result<T>) completion){
-    if (networkResult is SuccessNetworkResult){
-
-    } else if (networkResult is FailureNetworkResult){
-
+  complete<I extends NetworkResult<Advisable>>(
+      NetworkResult networkResult, Function(Result<Advice>) completion) {
+    if (networkResult is SuccessNetworkResult) {
+      completion(SuccessResult((networkResult.data as Advisable).toAdvice()));
+    } else if (networkResult is FailureNetworkResult) {
+      completion(ErrorResult(networkResult.error));
     }
   }
 }

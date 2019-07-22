@@ -1,3 +1,4 @@
+import 'package:dozens_advices/data/database/database.dart';
 import 'package:dozens_advices/data/network/slip_advice.dart';
 
 const SUCCESS_CODE = 200;
