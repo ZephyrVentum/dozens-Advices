@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:dozens_advices/data/database/Advice.dart';
 import 'package:dozens_advices/data/database/database.dart';
 import 'package:dozens_advices/data/network/network_service.dart';
 import 'package:http/http.dart' as http;
