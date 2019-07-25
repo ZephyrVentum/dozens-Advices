@@ -1,9 +1,10 @@
-import 'package:dozens_advices/data/database/Advice.dart';
+import 'package:dozens_advices/data/database/advice.dart';
+import 'package:dozens_advices/data/database/database.dart';
 import 'package:dozens_advices/data/network/network_service.dart';
-import 'package:dozens_advices/data/network/slip_advice.dart';
 
 class Repository {
   NetworkService _networkService;
+  DatabaseImpl _database;
 
   static Repository _repository;
 
@@ -19,25 +20,27 @@ class Repository {
   }
 
   void getRandomAdvice(Function(Result<Advice>) completion) async {
-    _networkService
-        .getRandomSlipAdvice()
-        .then((NetworkResult<SlipAdviceResponse> networkResult) {
-      _complete(networkResult, completion);
-    });
+    var networkResult = await _networkService.getRandomSlipAdvice();
+    _complete(networkResult, completion);
   }
 
   _complete<I extends NetworkResult<Advisable>>(
-      NetworkResult networkResult, Function(Result<Advice>) completion) {
+      NetworkResult networkResult, Function(Result<Advice>) completion) async {
     if (networkResult is SuccessNetworkResult) {
-      completion(SuccessResult((networkResult.data as Advisable).toAdvice()));
+      Advice advice = networkResult.data.toAdvice();
+      if (await _isValid(advice)) {
+        await _database.insertOrUpdateAdvice(advice);
+        completion(SuccessResult(advice));
+      } else {
+        getRandomAdvice(completion);
+      }
     } else if (networkResult is FailureNetworkResult) {
       completion(ErrorResult(networkResult.error));
     }
   }
 
-  _validateAndSave(){
-
-  }
+  Future<bool> _isValid(Advice advice) async =>
+      await _database.getExistingAdvice(advice) == null;
 }
 
 abstract class Result<T> {}

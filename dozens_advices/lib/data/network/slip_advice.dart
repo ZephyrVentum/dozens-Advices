@@ -1,7 +1,6 @@
 import 'dart:convert';
 
-import 'package:dozens_advices/data/database/Advice.dart';
-import 'package:dozens_advices/data/database/database.dart';
+import 'package:dozens_advices/data/database/advice.dart';
 import 'package:dozens_advices/data/network/network_service.dart';
 import 'package:http/http.dart' as http;
 
@@ -44,14 +43,10 @@ class Slip {
       Slip(advice: json[_ADVICE_REMOTE_KEY], slipId: json[_SLIP_ID_REMOTE_KEY]);
 }
 
-class SlipAdviceNetworkManager {
+class SlipAdviceNetworkManager with CanMakeNetworkRequest<SlipAdviceResponse> {
   Future<NetworkResult<SlipAdviceResponse>> getSlipAdvice() async {
-    final response = await http.get(_ADVICE_PATH);
-    if (response.statusCode == SUCCESS_CODE) {
-      return SuccessNetworkResult(
-          SlipAdviceResponse.fromJson(json.decode(response.body)));
-    } else {
-      return FailureNetworkResult(response.body);
-    }
+    return makeRequest(http.get(_ADVICE_PATH), (response) {
+      return SlipAdviceResponse.fromJson(jsonDecode(response.body));
+    });
   }
 }

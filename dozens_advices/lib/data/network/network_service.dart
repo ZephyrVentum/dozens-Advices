@@ -1,5 +1,6 @@
-import 'package:dozens_advices/data/database/database.dart';
+import 'package:dozens_advices/data/database/advice.dart';
 import 'package:dozens_advices/data/network/slip_advice.dart';
+import 'package:http/http.dart';
 
 const SUCCESS_CODE = 200;
 
@@ -63,4 +64,20 @@ class FailureNetworkResult<T> extends NetworkResult<T> {
   final dynamic error;
 
   FailureNetworkResult(this.error);
+}
+
+mixin CanMakeNetworkRequest<T extends Advisable> {
+  Future<NetworkResult<T>> makeRequest(
+      Future<Response> networkCall, T Function(Response) onParse) async {
+    try {
+      final response = await networkCall;
+      if (response.statusCode == SUCCESS_CODE) {
+        return SuccessNetworkResult(onParse(response));
+      } else {
+        return FailureNetworkResult(response.body);
+      }
+    } catch (e) {
+      return FailureNetworkResult(e.toString());
+    }
+  }
 }

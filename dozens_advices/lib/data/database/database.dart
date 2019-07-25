@@ -1,4 +1,4 @@
-import 'package:dozens_advices/data/database/Advice.dart';
+import 'package:dozens_advices/data/database/advice.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 
@@ -27,43 +27,48 @@ class DatabaseImpl {
       onCreate: (db, version) {
         return db.execute(
           "CREATE TABLE $ADVICE_TABLE("
-              "$ID_COLUMN INTEGER PRIMARY KEY AUTOINCREMENT, "
-              "$REMOTE_ID_COLUMN TEXT, "
-              "$CONTENT_COLUMN TEXT, "
-              "$VIEWS_COLUMN INTEGER, "
-              "$IS_FAVOURITE_COLUMN INTEGER, "
-              "$TYPE_COLUMN TEXT, "
-              "$CREATED_AT_COLUMN INTEGER, "
-              "$VIEWED_AT_COLUMN INTEGER, "
-              "$AUTHOR_COLUMN TEXT, "
-              "$SOURCE_COLUMN TEXT"
-              ")",
+          "$ID_COLUMN INTEGER PRIMARY KEY AUTOINCREMENT, "
+          "$REMOTE_ID_COLUMN TEXT, "
+          "$CONTENT_COLUMN TEXT, "
+          "$VIEWS_COLUMN INTEGER, "
+          "$IS_FAVOURITE_COLUMN INTEGER, "
+          "$TYPE_COLUMN TEXT, "
+          "$CREATED_AT_COLUMN INTEGER, "
+          "$VIEWED_AT_COLUMN INTEGER, "
+          "$AUTHOR_COLUMN TEXT, "
+          "$SOURCE_COLUMN TEXT"
+          ")",
         );
       },
       version: 1,
     );
   }
 
-  Future<bool> isAdviceExists() {
+  Future<Advice> getExistingAdvice(Advice advice) async {
     final Database db = await _flutterDao;
+    var existing = await db.query(ADVICE_TABLE,
+        where: '$REMOTE_ID_COLUMN = ?, $SOURCE_COLUMN = ?',
+        whereArgs: [advice.remoteId, advice.source]);
+    if (existing != null) {
+      return existing as Advice;
+    } else {
+      return null;
+    }
   }
 
   Future<int> removeAdvice(int adviceId) async {
-    return await (await _flutterDao)
+    return (await _flutterDao)
         .delete(ADVICE_TABLE, where: '$ID_COLUMN = ?', whereArgs: [adviceId]);
   }
 
   Future<int> insertOrUpdateAdvice(Advice advice) async {
     final Database db = await _flutterDao;
-    var existing = await db.query(ADVICE_TABLE,
-        where: '$REMOTE_ID_COLUMN = ?, $SOURCE_COLUMN = ?', whereArgs: [advice.remoteId, advice.source]);
+    var existing = await getExistingAdvice(advice);
     if (existing != null) {
-      Advice existingAdvice = existing as Advice;
-      return await db
-          .update(ADVICE_TABLE, {CONTENT_COLUMN: advice.mainContent},
-          where: '$ID_COLUMN = ?', whereArgs: [existingAdvice.id]);
+      return db.update(ADVICE_TABLE, {CONTENT_COLUMN: advice.mainContent},
+          where: '$ID_COLUMN = ?', whereArgs: [existing.id]);
     } else {
-      return await db.insert(ADVICE_TABLE, advice.toDatabaseMap(),
+      return db.insert(ADVICE_TABLE, advice.toDatabaseMap(),
           conflictAlgorithm: ConflictAlgorithm.replace);
     }
   }
