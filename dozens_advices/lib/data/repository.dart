@@ -10,6 +10,7 @@ class Repository {
 
   Repository._internal() {
     _networkService = NetworkService.getInstance();
+    _database = DatabaseImpl.getInstance();
   }
 
   factory Repository.getInstance() {
