@@ -1,3 +1,4 @@
+import 'package:dozens_advices/bloc/new_advice/new_advice_bloc.dart';
 import 'package:dozens_advices/resources/strings.dart';
 import 'package:dozens_advices/resources/styles.dart';
 import 'package:dozens_advices/screens/configure_screen.dart';
@@ -7,20 +8,24 @@ import 'package:dozens_advices/screens/new_advice_screen.dart';
 import 'package:dozens_advices/utils/routes.dart';
 import 'package:dozens_advices/widgets/bottom_tab_bar.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gradient_app_bar/gradient_app_bar.dart';
 
 class HomeScreen {
   static const String ROUTE = "/home";
 
-  Route getRoute({RouteSettings settings}) =>
-      FadeRoute(builder: (context) => _ScreenLayout());
+  Route getRoute({RouteSettings settings}) => FadeRoute(
+      builder: (context) => MultiBlocProvider(
+            child: _ScreenLayout(),
+            providers: [
+              BlocProvider<NewAdviceBloc>(builder: (context) => NewAdviceBloc())
+            ],
+          ));
 }
 
 class _ScreenLayout extends StatefulWidget {
   @override
-  State<StatefulWidget> createState() {
-    return _ScreenLayoutState();
-  }
+  State<StatefulWidget> createState() => _ScreenLayoutState();
 }
 
 class _ScreenLayoutState extends State<_ScreenLayout>
@@ -48,7 +53,7 @@ class _ScreenLayoutState extends State<_ScreenLayout>
   Widget build(BuildContext context) {
     return Stack(children: <Widget>[
       Scaffold(
-        backgroundColor: Colors.white,
+        backgroundColor: Color(0xEEFFFFFF),
         appBar: GradientAppBar(
           backgroundColorStart: Styles.startGradientColor,
           backgroundColorEnd: Styles.endGradientColor,

@@ -46,11 +46,11 @@ class DatabaseImpl {
 
   Future<Advice> getExistingAdvice(Advice advice) async {
     final Database db = await _flutterDao;
-    var existing = await db.query(ADVICE_TABLE,
-        where: '$REMOTE_ID_COLUMN = ?, $SOURCE_COLUMN = ?',
-        whereArgs: [advice.remoteId, advice.source]);
-    if (existing != null) {
-      return existing as Advice;
+    List<Map> existing = await db.query(ADVICE_TABLE,
+        where: '$REMOTE_ID_COLUMN = ? and $SOURCE_COLUMN = ?',
+        whereArgs: [advice.remoteId, advice.source], limit: 1);
+    if (existing.isNotEmpty) {
+      return Advice.fromDatabaseMap(existing.first);
     } else {
       return null;
     }

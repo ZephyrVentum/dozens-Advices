@@ -20,23 +20,25 @@ class Repository {
     return _repository;
   }
 
-  void getRandomAdvice(Function(Result<Advice>) completion) async {
+  Future<Result<Advice>> getRandomAdvice() async {
     var networkResult = await _networkService.getRandomSlipAdvice();
-    _complete(networkResult, completion);
+    return await _complete(networkResult);
   }
 
-  _complete<I extends NetworkResult<Advisable>>(
-      NetworkResult networkResult, Function(Result<Advice>) completion) async {
+  Future<Result<Advice>> _complete<I extends NetworkResult<Advisable>>(
+      NetworkResult networkResult) async {
     if (networkResult is SuccessNetworkResult) {
       Advice advice = networkResult.data.toAdvice();
       if (await _isValid(advice)) {
         await _database.insertOrUpdateAdvice(advice);
-        completion(SuccessResult(advice));
+        return SuccessResult(advice);
       } else {
-        getRandomAdvice(completion);
+        return getRandomAdvice();
       }
     } else if (networkResult is FailureNetworkResult) {
-      completion(ErrorResult(networkResult.error));
+      return ErrorResult(networkResult.error);
+    } else {
+      return ErrorResult('Ups. Something went wrong.');
     }
   }
 

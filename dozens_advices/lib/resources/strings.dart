@@ -7,4 +7,5 @@ class Strings{
   static final String configureTab = "Configure";
   static final String historyTab = "History";
   static final String favouritesTab = "Favourites";
+  static final String welcomeHome = "Welcome";
 }

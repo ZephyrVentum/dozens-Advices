@@ -20,9 +20,8 @@ class NetworkService implements INetwork {
     return _networkService;
   }
 
-  @override
   Future<NetworkResult<SlipAdviceResponse>> getRandomSlipAdvice() {
-    return _networkManager.slipAdviceNetworkManager.getSlipAdvice();
+    return _networkManager.getSlipAdviceNetworkManager().getSlipAdvice();
   }
 }
 
@@ -33,7 +32,7 @@ abstract class INetwork {
 class NetworkManager {
   static NetworkManager _instance;
 
-  SlipAdviceNetworkManager slipAdviceNetworkManager;
+  SlipAdviceNetworkManager _slipAdviceNetworkManager;
 
   NetworkManager._internal();
 
@@ -45,10 +44,10 @@ class NetworkManager {
   }
 
   SlipAdviceNetworkManager getSlipAdviceNetworkManager() {
-    if (slipAdviceNetworkManager == null) {
-      slipAdviceNetworkManager = SlipAdviceNetworkManager();
+    if (_slipAdviceNetworkManager == null) {
+      _slipAdviceNetworkManager = SlipAdviceNetworkManager();
     }
-    return slipAdviceNetworkManager;
+    return _slipAdviceNetworkManager;
   }
 }
 

@@ -18,6 +18,9 @@ class Styles {
   static TextStyle regularLogoTextStyle(BuildContext context) =>
       Theme.of(context).textTheme.display1;
 
+  static TextStyle buttonTextStyle(BuildContext context) =>
+      Theme.of(context).textTheme.button.copyWith(fontFamily: 'GilroyMedium',fontSize: 20);
+
   static TextStyle boldAppBarTextStyle(BuildContext context) =>
       Theme.of(context)
           .textTheme

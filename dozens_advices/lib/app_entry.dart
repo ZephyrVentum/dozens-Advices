@@ -8,10 +8,10 @@ class DozensAdvicesApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     //Use only portrait orientation
-//    SystemChrome.setPreferredOrientations([
-//      DeviceOrientation.portraitUp,
-//      DeviceOrientation.portraitDown,
-//    ]);
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown,
+    ]);
     return MaterialApp(
         theme: Styles.getInstance().appThemeData,
         debugShowCheckedModeBanner: false,

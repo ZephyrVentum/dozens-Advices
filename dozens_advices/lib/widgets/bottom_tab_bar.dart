@@ -5,6 +5,7 @@
 import 'dart:collection' show Queue;
 import 'dart:math' as math;
 
+import 'package:dozens_advices/resources/styles.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:vector_math/vector_math_64.dart' show Vector3;
@@ -337,10 +338,10 @@ class _BottomNavigationTile extends StatelessWidget {
               InkResponse(
                 highlightColor: position == 0
                     ? Colors.transparent
-                    : Theme.of(context).splashColor,
+                    : Styles.highlightInkWellColor,
                 splashColor: position == 0
                     ? Colors.transparent
-                    : Theme.of(context).splashColor,
+                    : Colors.black26,
                 onTap: onTap,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
