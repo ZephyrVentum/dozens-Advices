@@ -158,14 +158,14 @@ class _ScreenLayoutState extends State<_ScreenLayout>
       items: <BottomNavigationBarItem>[
         BottomNavigationBarItem(icon: Container(), title: Container()),
         BottomNavigationBarItem(
-            icon: Icon(Icons.tune), title: Text(Strings.configureTab)),
+            icon: Icon(Icons.tune), title: Text(Strings.configureTab, style: Styles.tabTextStyle(context),)),
         BottomNavigationBarItem(
             icon: Icon(Icons.list),
-            title: Text(Strings.historyTab),
+            title: Text(Strings.historyTab, style: Styles.tabTextStyle(context)),
             activeIcon: Icon(Icons.format_list_bulleted)),
         BottomNavigationBarItem(
             icon: Icon(Icons.favorite_border),
-            title: Text(Strings.favouritesTab),
+            title: Text(Strings.favouritesTab, style: Styles.tabTextStyle(context)),
             activeIcon: Icon(Icons.favorite)),
       ],
     );

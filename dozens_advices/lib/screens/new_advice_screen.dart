@@ -19,33 +19,68 @@ class _NewAdviceScreenState extends State<NewAdviceScreen> {
         builder: (BuildContext context, NewAdviceState state) {
           switch (state.runtimeType) {
             case InitialNewAdviceState:
-              return Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: <Widget>[
-                    Text(Strings.welcomeHome,
-                        style: Styles.regularLogoTextStyle(context)),
-                    RaisedGradientButton(
-                      onPressed: () {},
-                      child: Text("Get anything!",
-                          style: Styles.buttonTextStyle(context)),
-                      gradient: LinearGradient(colors: [
-                        Styles.startGradientColor,
-                        Styles.endGradientColor
-                      ]),
-                    ),
-                    RichText(text: TextSpan(children: [
-                      TextSpan(text: "You may fetch a random "),
-                    ]),),
-
-                  ],
-                ),
-              );
+              return buildLoadingState();
               break;
             default:
               return Container();
           }
         });
   }
+
+  Widget buildLoadingState() => Center(
+        child: CircularProgressIndicator(value: 0,strokeWidth: 1.75, semanticsLabel: "fdsfs", semanticsValue: "11121",),
+      );
+
+  Widget buildInitialState() => Container(
+        alignment: Alignment.center,
+        child: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisSize: MainAxisSize.min,
+              children: <Widget>[
+                Text(Strings.welcomeHome,
+                    style: Styles.regularLogoTextStyle(context)),
+                const SizedBox(width: 1, height: 36),
+                RichText(
+                  textAlign: TextAlign.center,
+                  text: TextSpan(children: [
+                    TextSpan(
+                        text: Strings.descriptionHome,
+                        style: Styles.infoTextStyle(context)),
+                    TextSpan(
+                        text: Strings.spansHome,
+                        style: Styles.infoTextStyleHighlighted(context)),
+                    TextSpan(
+                        text: Strings.orHome,
+                        style: Styles.infoTextStyle(context)),
+                    TextSpan(
+                        text: Strings.factHome,
+                        style: Styles.infoTextStyleHighlighted(context)),
+                    TextSpan(
+                        text: Strings.tapToStartHome,
+                        style: Styles.infoTextStyle(context)),
+                  ]),
+                ),
+                const SizedBox(width: 1, height: 36),
+                RaisedGradientButton(
+                  onPressed: () {},
+                  child: Text(Strings.getAnythingButtonHome,
+                      style: Styles.buttonTextStyle(context)),
+                  gradient: LinearGradient(colors: [
+                    Styles.startGradientColor,
+                    Styles.endGradientColor
+                  ]),
+                ),
+                const SizedBox(width: 1, height: 36),
+                Text(Strings.configureTipHome,
+                    textAlign: TextAlign.center,
+                    style: Styles.infoTextStyle(context)),
+              ],
+            ),
+          ),
+        ),
+      );
 }
