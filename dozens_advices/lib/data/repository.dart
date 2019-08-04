@@ -2,6 +2,8 @@ import 'package:dozens_advices/data/database/advice.dart';
 import 'package:dozens_advices/data/database/database.dart';
 import 'package:dozens_advices/data/network/network_service.dart';
 
+const _ATTEMPTS_COUNT = 5;
+
 class Repository {
   NetworkService _networkService;
   DatabaseImpl _database;
@@ -20,20 +22,22 @@ class Repository {
     return _repository;
   }
 
-  Future<Result<Advice>> getRandomAdvice() async {
+  Future<Result<Advice>> getRandomAdvice({attempt = 0}) async {
     var networkResult = await _networkService.getRandomSlipAdvice();
-    return await _complete(networkResult);
+    return await _complete(networkResult, attempt);
   }
 
   Future<Result<Advice>> _complete<I extends NetworkResult<Advisable>>(
-      NetworkResult networkResult) async {
+      NetworkResult networkResult, attempt) async {
     if (networkResult is SuccessNetworkResult) {
       Advice advice = networkResult.data.toAdvice();
       if (await _isValid(advice)) {
         await _database.insertOrUpdateAdvice(advice);
         return SuccessResult(advice);
+      } else if (attempt < _ATTEMPTS_COUNT) {
+        return getRandomAdvice(attempt: ++attempt);
       } else {
-        return getRandomAdvice();
+        return ErrorResult('Sorry. No data for you');
       }
     } else if (networkResult is FailureNetworkResult) {
       return ErrorResult(networkResult.error);

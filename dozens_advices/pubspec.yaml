@@ -52,6 +52,8 @@ flutter:
     - assets/app_icon.png
     - assets/images/d_logo.png
     - assets/images/a_logo.png
+    - assets/images/inner_circle.png
+    - assets/images/outer_circle.png
 
   fonts:
     - family: GilroyExtraBold

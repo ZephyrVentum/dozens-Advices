@@ -26,6 +26,7 @@ class NewAdviceBloc extends Bloc<NewAdviceEvent, NewAdviceState> {
   }
 
   Stream<NewAdviceState> _mapLoadNewAdviceToState(LoadNewEvent event) async* {
+    yield LoadingNewAdviceState();
     Result<Advice> result = await repository.getRandomAdvice();
     if (result is SuccessResult) {
       yield LoadedAdviceState((result as SuccessResult).data);
