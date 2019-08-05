@@ -1,3 +1,4 @@
+import 'package:dozens_advices/bloc/bloc.dart';
 import 'package:dozens_advices/bloc/new_advice/new_advice_bloc.dart';
 import 'package:dozens_advices/resources/strings.dart';
 import 'package:dozens_advices/resources/styles.dart';
@@ -18,7 +19,8 @@ class HomeScreen {
       builder: (context) => MultiBlocProvider(
             child: _ScreenLayout(),
             providers: [
-              BlocProvider<NewAdviceBloc>(builder: (context) => NewAdviceBloc())
+              BlocProvider<NewAdviceBloc>(builder: (context) => NewAdviceBloc()),
+              BlocProvider<HistoryBloc>(builder: (context) => HistoryBloc())
             ],
           ));
 }
