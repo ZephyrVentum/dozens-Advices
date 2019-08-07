@@ -65,6 +65,10 @@ class Advice {
 }
 
 class AdviceType {
+  final type;
+
+  AdviceType({this.type = ADVICE});
+
   static const ADVICE = "ADVICE";
   static const JOKE = "JOKE";
   static const FACT = "FACT";
