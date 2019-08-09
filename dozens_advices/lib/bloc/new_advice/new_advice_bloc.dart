@@ -18,14 +18,14 @@ class NewAdviceBloc extends Bloc<NewAdviceEvent, NewAdviceState> {
   ) async* {
     switch (event.runtimeType) {
       case LoadNewEvent:
-        yield* _mapLoadNewAdviceToState(event);
+        yield* _mapLoadNewAdviceToState();
         break;
       case MarkAsFavouriteEvent:
         break;
     }
   }
 
-  Stream<NewAdviceState> _mapLoadNewAdviceToState(LoadNewEvent event) async* {
+  Stream<NewAdviceState> _mapLoadNewAdviceToState() async* {
     yield LoadingNewAdviceState();
     Result<Advice> result = await repository.getRandomAdvice();
     if (result is SuccessResult) {

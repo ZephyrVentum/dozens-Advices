@@ -4,6 +4,8 @@ import 'package:meta/meta.dart';
 @immutable
 abstract class HistoryEvent {}
 
+class LoadAdvicesEvent extends HistoryEvent {}
+
 class SortByDateAddedEvent extends HistoryEvent {}
 
 class SortByDateViewedEvent extends HistoryEvent {}

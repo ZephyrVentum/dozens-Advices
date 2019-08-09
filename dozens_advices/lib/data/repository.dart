@@ -27,6 +27,10 @@ class Repository {
     return await _complete(networkResult, attempt);
   }
 
+  Future<List<Advice>> getAdvicesHistory() async {
+    return _database.getAdvices();
+  }
+
   Future<Result<Advice>> _complete<I extends NetworkResult<Advisable>>(
       NetworkResult networkResult, attempt) async {
     if (networkResult is SuccessNetworkResult) {
