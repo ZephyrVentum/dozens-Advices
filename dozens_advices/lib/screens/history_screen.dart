@@ -41,6 +41,8 @@ class _HistoryScreenState extends State<HistoryScreen> {
       itemCount: advices.length,
       itemBuilder: (_, index) {
         return ListTile(
+          leading: Image(
+              image: AssetImage("assets/images/ic_advice.png")),
             title: Text(
           advices[index].mainContent,
           maxLines: 1,

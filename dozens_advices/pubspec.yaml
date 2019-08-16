@@ -54,6 +54,10 @@ flutter:
     - assets/images/a_logo.png
     - assets/images/inner_circle.png
     - assets/images/outer_circle.png
+    - assets/images/ic_advice.png
+    - assets/images/iс_fact.png
+    - assets/images/ic_joke.png
+    - assets/images/ic_.png
 
   fonts:
     - family: GilroyExtraBold
