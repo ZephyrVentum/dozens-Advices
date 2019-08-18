@@ -21,6 +21,7 @@ class NewAdviceBloc extends Bloc<NewAdviceEvent, NewAdviceState> {
         yield* _mapLoadNewAdviceToState();
         break;
       case MarkAsFavouriteEvent:
+        yield* _mapMarkAsFavouriteToState((event as MarkAsFavouriteEvent).advice);
         break;
     }
   }
@@ -33,5 +34,10 @@ class NewAdviceBloc extends Bloc<NewAdviceEvent, NewAdviceState> {
     } else if (result is ErrorResult) {
       yield NotLoadedAdviceState((result as ErrorResult).error);
     }
+  }
+
+  Stream<NewAdviceState> _mapMarkAsFavouriteToState(Advice advice) async* {
+
+    yield LoadedAdviceState(await repository.markAdviceAsFavourite(advice.id, !advice.isFavourite));
   }
 }

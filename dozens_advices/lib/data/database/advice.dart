@@ -15,7 +15,7 @@ class Advice {
   final int id;
   final String mainContent;
   final int views;
-  final isFavourite;
+  final bool isFavourite;
   final String type;
   final int createdAt;
   final int viewedAt;

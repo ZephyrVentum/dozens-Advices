@@ -21,4 +21,7 @@ class Strings{
   static final String getAnythingButtonHome = "Get anything!";
   static final String configureTipHome = "You are also may to configure app to get a specific content according to your preferences.";
   static final String somethingElseButtonHome = "Something else!";
+  static final String createdAtAdviceHome = "Created at:";
+  static final String viewsAdviceHome = "Views";
+  static final String lastSeenAdviceHome = "Last seen:";
 }

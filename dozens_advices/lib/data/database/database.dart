@@ -48,7 +48,8 @@ class DatabaseImpl {
     final Database db = await _flutterDao;
     List<Map> existing = await db.query(ADVICE_TABLE,
         where: '$REMOTE_ID_COLUMN = ? and $SOURCE_COLUMN = ?',
-        whereArgs: [advice.remoteId, advice.source], limit: 1);
+        whereArgs: [advice.remoteId, advice.source],
+        limit: 1);
     if (existing.isNotEmpty) {
       return Advice.fromDatabaseMap(existing.first);
     } else {
@@ -88,5 +89,18 @@ class DatabaseImpl {
     return List.generate(maps.length, (i) {
       return Advice.fromDatabaseMap(maps[i]);
     });
+  }
+
+  Future<Advice> markAsFavourite(int id, bool isFavourite) async {
+    final Database db = await _flutterDao;
+    db.update(ADVICE_TABLE, {IS_FAVOURITE_COLUMN: isFavourite ? 1 : 0},
+        where: '$ID_COLUMN = ?', whereArgs: [id]);
+    return await getAdvice(id);
+  }
+
+  Future<Advice> getAdvice(int id) async {
+    final Database db = await _flutterDao;
+    List<Map> advice = await db.query(ADVICE_TABLE, where: '$ID_COLUMN = ?', whereArgs: [id], limit: 1);
+    return Advice.fromDatabaseMap(advice.first);
   }
 }

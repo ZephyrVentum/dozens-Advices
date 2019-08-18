@@ -35,6 +35,10 @@ class Repository {
     return _database.getFavouriteAdvices();
   }
 
+  Future<Advice> markAdviceAsFavourite(int id, bool isFavourite){
+    return _database.markAsFavourite(id, isFavourite);
+  }
+
   Future<Result<Advice>> _complete<I extends NetworkResult<Advisable>>(
       NetworkResult networkResult, attempt) async {
     if (networkResult is SuccessNetworkResult) {

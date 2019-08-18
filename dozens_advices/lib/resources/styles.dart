@@ -35,10 +35,10 @@ class Styles {
   static TextStyle infoTextStyle(BuildContext context) =>
       Theme.of(context).textTheme.display2.copyWith(fontSize: 21);
 
-  static advicesListDateTextStyle(BuildContext context) =>
+  static TextStyle advicesListDateTextStyle(BuildContext context) =>
       Theme.of(context).textTheme.display2.copyWith(fontSize: 14);
 
-  static advicesListContentTextStyle(BuildContext context) =>
+  static TextStyle advicesListContentTextStyle(BuildContext context) =>
       Theme.of(context).textTheme.display2.copyWith(fontSize: 16);
 
   static TextStyle infoTextStyleHighlighted(BuildContext context) =>
