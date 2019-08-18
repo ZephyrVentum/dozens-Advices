@@ -20,7 +20,8 @@ class HomeScreen {
             child: _ScreenLayout(),
             providers: [
               BlocProvider<NewAdviceBloc>(builder: (context) => NewAdviceBloc()),
-              BlocProvider<HistoryBloc>(builder: (context) => HistoryBloc())
+              BlocProvider<HistoryBloc>(builder: (context) => HistoryBloc()),
+              BlocProvider<FavouritesBloc>(builder: (context) => FavouritesBloc ())
             ],
           ));
 }

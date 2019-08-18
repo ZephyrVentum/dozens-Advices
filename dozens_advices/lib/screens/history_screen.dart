@@ -1,8 +1,12 @@
 import 'package:dozens_advices/bloc/bloc.dart';
 import 'package:dozens_advices/data/database/advice.dart';
+import 'package:dozens_advices/widgets/advices_list.dart';
 import 'package:dozens_advices/widgets/progress_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:intl/intl.dart';
+
+DateFormat formatter = DateFormat('dd/MM/yyyy');
 
 class HistoryScreen extends StatefulWidget {
   @override
@@ -37,18 +41,8 @@ class _HistoryScreenState extends State<HistoryScreen> {
         });
   }
 
-  Widget _buildLoadedState(List<Advice> advices) => ListView.builder(
-      itemCount: advices.length,
-      itemBuilder: (_, index) {
-        return ListTile(
-          leading: Image(
-              image: AssetImage("assets/images/ic_advice.png")),
-            title: Text(
-          advices[index].mainContent,
-          maxLines: 1,
-          overflow: TextOverflow.ellipsis,
-        ));
-      });
+  Widget _buildLoadedState(List<Advice> advices) =>
+      AdvicesList(advices: advices);
 
   Widget _buildInitialState() => _buildLoadingState();
 

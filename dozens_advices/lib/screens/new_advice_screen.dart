@@ -41,19 +41,60 @@ class _NewAdviceScreenState extends State<NewAdviceScreen> {
         });
   }
 
+  String getImagePath(Advice advice) {
+    switch (advice.type) {
+      case AdviceType.ADVICE:
+        return "assets/images/ic_advice.png";
+      case AdviceType.QUOTE:
+        return "assets/images/ic_quote.png";
+      case AdviceType.FACT:
+        return "assets/images/ic_fact.png";
+      case AdviceType.JOKE:
+        return "assets/images/ic_joke.png";
+      default:
+        return "assets/images/ic_advice.png";
+    }
+  }
+
   Widget buildLoadedState(Advice advice) => Center(
           child: Column(
         mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
+          Row(mainAxisSize: MainAxisSize.min, children: <Widget>[
+            Image(image: AssetImage(getImagePath(advice))),
+            Text(advice.type.substring(1, advice.type.length),
+                style: Styles.infoTextStyleHighlighted(context)
+                    .copyWith(letterSpacing: 1.15, fontSize: 27)),
+          ]),
           Text(advice.mainContent),
-          RaisedGradientButton(
-            onPressed: () {
-              _newAdviceBloc.dispatch(LoadNewEvent());
-            },
-            child: Text(Strings.somethingElseButtonHome,
-                style: Styles.buttonTextStyle(context)),
-            gradient: LinearGradient(
-                colors: [Styles.startGradientColor, Styles.endGradientColor]),
+          Row(
+            children: <Widget>[
+              RaisedGradientButton(
+                onPressed: () {
+                  _newAdviceBloc.dispatch(LoadNewEvent());
+                },
+                child: Text(Strings.somethingElseButtonHome,
+                    style: Styles.buttonTextStyle(context)),
+                gradient: LinearGradient(colors: [
+                  Styles.startGradientColor,
+                  Styles.endGradientColor
+                ]),
+              ),
+              RaisedGradientButton(
+                onPressed: () {
+                  _newAdviceBloc.dispatch(LoadNewEvent());
+                },
+                child: Icon(
+                  Icons.favorite,
+                  color: Colors.deepOrange,
+                ),
+                gradient: LinearGradient(colors: [
+                  Styles.startGradientColor,
+                  Styles.endGradientColor
+                ]),
+              )
+            ],
           )
         ],
       ));

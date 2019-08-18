@@ -28,6 +28,7 @@ dependencies:
   flutter_bloc: ^0.19.0
   http: ^0.12.0+2
   sqflite: 1.1.6+1
+  intl: ^0.15.8
 
 dev_dependencies:
   flutter_test:
@@ -55,9 +56,9 @@ flutter:
     - assets/images/inner_circle.png
     - assets/images/outer_circle.png
     - assets/images/ic_advice.png
-    - assets/images/iс_fact.png
+    - assets/images/ic_fact.png
     - assets/images/ic_joke.png
-    - assets/images/ic_.png
+    - assets/images/ic_quote.png
 
   fonts:
     - family: GilroyExtraBold

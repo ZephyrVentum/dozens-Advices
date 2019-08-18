@@ -6,8 +6,48 @@ class ConfigureScreen extends StatefulWidget {
 }
 
 class _ConfigureScreenState extends State<ConfigureScreen> {
+  double sliderValue = 0;
+
   @override
   Widget build(BuildContext context) {
-    return Container(color: Colors.blueGrey);
+    return Column(
+      children: <Widget>[
+        Slider(
+            value: sliderValue,
+            onChanged: (value) {
+              setState(() {
+                sliderValue = value;
+              });
+            }),
+        Slider(
+            value: sliderValue,
+            onChanged: (value) {
+              setState(() {
+                sliderValue = value;
+              });
+            }),
+        Slider(
+            value: sliderValue,
+            onChanged: (value) {
+              setState(() {
+                sliderValue = value;
+              });
+            }),
+        Slider(
+            value: sliderValue,
+            onChanged: (value) {
+              setState(() {
+                sliderValue = value;
+              });
+            }),
+        Slider(
+            value: sliderValue,
+            onChanged: (value) {
+              setState(() {
+                sliderValue = value;
+              });
+            })
+      ],
+    );
   }
 }

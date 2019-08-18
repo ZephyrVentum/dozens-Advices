@@ -26,7 +26,7 @@ class Advice {
       {this.id,
       this.remoteId,
       this.mainContent,
-      this.views = 0,
+      this.views = 1,
       this.isFavourite = false,
       this.type,
       this.createdAt = 0,

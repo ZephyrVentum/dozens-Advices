@@ -35,6 +35,12 @@ class Styles {
   static TextStyle infoTextStyle(BuildContext context) =>
       Theme.of(context).textTheme.display2.copyWith(fontSize: 21);
 
+  static advicesListDateTextStyle(BuildContext context) =>
+      Theme.of(context).textTheme.display2.copyWith(fontSize: 14);
+
+  static advicesListContentTextStyle(BuildContext context) =>
+      Theme.of(context).textTheme.display2.copyWith(fontSize: 16);
+
   static TextStyle infoTextStyleHighlighted(BuildContext context) =>
       infoTextStyle(context).copyWith(fontFamily: 'GilroyMedium', fontSize: 23);
 
@@ -63,6 +69,7 @@ class Styles {
 
   static const startGradientColor = Color(0xff7FC6FF);
   static const endGradientColor = Color(0xff4678FF);
+  static const averageGradientColor = Color(0xff629FFF);
   static const highlightInkWellColor = Color(0x7f4678FF);
   static const inactiveHomeTabColor = Color(0xff19325E);
 }
