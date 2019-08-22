@@ -64,13 +64,16 @@ class DatabaseImpl {
 
   Future<int> insertOrUpdateAdvice(Advice advice) async {
     final Database db = await _flutterDao;
-    var existing = await getExistingAdvice(advice);
+    Advice existing = await getExistingAdvice(advice);
     if (existing != null) {
+      advice.id = existing.id;
       return db.update(ADVICE_TABLE, {CONTENT_COLUMN: advice.mainContent},
           where: '$ID_COLUMN = ?', whereArgs: [existing.id]);
     } else {
-      return db.insert(ADVICE_TABLE, advice.toDatabaseMap(),
+      int id = await db.insert(ADVICE_TABLE, advice.toDatabaseMap(),
           conflictAlgorithm: ConflictAlgorithm.replace);
+      advice.id = id;
+      return id;
     }
   }
 
@@ -100,7 +103,8 @@ class DatabaseImpl {
 
   Future<Advice> getAdvice(int id) async {
     final Database db = await _flutterDao;
-    List<Map> advice = await db.query(ADVICE_TABLE, where: '$ID_COLUMN = ?', whereArgs: [id], limit: 1);
+    List<Map> advice = await db.query(ADVICE_TABLE,
+        where: '$ID_COLUMN = ?', whereArgs: [id], limit: 1);
     return Advice.fromDatabaseMap(advice.first);
   }
 }

@@ -43,7 +43,7 @@ class AdvicesList extends StatelessWidget {
                         advices[index].isFavourite
                             ? Icon(
                                 Icons.favorite,
-                                color: Colors.deepOrange,
+                                color: Colors.deepOrange.shade700,
                                 size: 21,
                               )
                             : Container()

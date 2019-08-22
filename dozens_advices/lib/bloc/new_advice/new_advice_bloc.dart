@@ -37,7 +37,6 @@ class NewAdviceBloc extends Bloc<NewAdviceEvent, NewAdviceState> {
   }
 
   Stream<NewAdviceState> _mapMarkAsFavouriteToState(Advice advice) async* {
-
     yield LoadedAdviceState(await repository.markAdviceAsFavourite(advice.id, !advice.isFavourite));
   }
 }

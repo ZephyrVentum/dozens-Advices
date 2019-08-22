@@ -12,7 +12,7 @@ const SOURCE_COLUMN = 'source';
 
 class Advice {
   final String remoteId;
-  final int id;
+  int id;
   final String mainContent;
   final int views;
   final bool isFavourite;

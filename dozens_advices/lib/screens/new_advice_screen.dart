@@ -202,7 +202,7 @@ class _NewAdviceScreenState extends State<NewAdviceScreen> {
                   },
                   child: Icon(
                     advice.isFavourite ? Icons.favorite : Icons.favorite_border,
-                    color: advice.isFavourite ? Colors.red : Colors.black,
+                    color: advice.isFavourite ? Colors.red.shade900 : Colors.black,
                   ),
                   gradient: LinearGradient(colors: [
                     Styles.startGradientColor,
