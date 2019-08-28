@@ -2,6 +2,23 @@
 class Strings{
   Strings._internal();
 
+  static final List<String> sortMenuTitles = List()
+    ..addAll([
+      Strings.sortMostRecentHistory,
+      Strings.sortTheOldestHistory,
+      Strings.sortMostPopularHistory,
+      Strings.sortMostUnpopularHistory
+    ]);
+
+  static final List<String> filterMenuTitles = List()
+    ..addAll([
+      Strings.filterAllHistory,
+      Strings.filterOnlyAdvicesHistory,
+      Strings.filterOnlyJokesHistory,
+      Strings.filterOnlyQuotesHistory,
+      Strings.filterOnlyFactsHistory
+    ]);
+
   //general
   static final String dozensLogo = "dozens";
   static final String advicesLogo = "Advices";
@@ -24,4 +41,16 @@ class Strings{
   static final String createdAtAdviceHome = "Created at:";
   static final String viewsAdviceHome = "Views";
   static final String lastSeenAdviceHome = "Last seen:";
+
+  //history
+  static final String sortMostRecentHistory = "Most recent";
+  static final String sortTheOldestHistory = "The oldest";
+  static final String sortMostPopularHistory = "Most popular";
+  static final String sortMostUnpopularHistory = "Most unpopular";
+  static final String filterAllHistory = "Show all";
+  static final String filterOnlyAdvicesHistory = "Only advices";
+  static final String filterOnlyJokesHistory = "Only jokes";
+  static final String filterOnlyQuotesHistory = "Only quotes";
+  static final String filterOnlyFactsHistory = "Only facts";
 }
+

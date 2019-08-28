@@ -13,3 +13,9 @@ class MarkAsFavouriteEvent extends NewAdviceEvent {
 class LoadNewEvent extends NewAdviceEvent {}
 
 class SpeechAdviceEvent extends NewAdviceEvent {}
+
+class ShowAdviceEvent extends NewAdviceEvent {
+  final Advice advice;
+
+  ShowAdviceEvent(this.advice);
+}

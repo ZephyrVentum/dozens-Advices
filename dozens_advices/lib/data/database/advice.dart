@@ -65,7 +65,7 @@ class Advice {
 }
 
 class AdviceType {
-  final type;
+  final String type;
 
   AdviceType({this.type = ADVICE});
 

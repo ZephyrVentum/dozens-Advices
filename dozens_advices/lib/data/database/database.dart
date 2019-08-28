@@ -47,9 +47,7 @@ class DatabaseImpl {
   Future<Advice> getExistingAdvice(Advice advice) async {
     final Database db = await _flutterDao;
     List<Map> existing = await db.query(ADVICE_TABLE,
-        where: '$REMOTE_ID_COLUMN = ? and $SOURCE_COLUMN = ?',
-        whereArgs: [advice.remoteId, advice.source],
-        limit: 1);
+        where: '$REMOTE_ID_COLUMN = ? and $SOURCE_COLUMN = ?', whereArgs: [advice.remoteId, advice.source], limit: 1);
     if (existing.isNotEmpty) {
       return Advice.fromDatabaseMap(existing.first);
     } else {
@@ -58,8 +56,7 @@ class DatabaseImpl {
   }
 
   Future<int> removeAdvice(int adviceId) async {
-    return (await _flutterDao)
-        .delete(ADVICE_TABLE, where: '$ID_COLUMN = ?', whereArgs: [adviceId]);
+    return (await _flutterDao).delete(ADVICE_TABLE, where: '$ID_COLUMN = ?', whereArgs: [adviceId]);
   }
 
   Future<int> insertOrUpdateAdvice(Advice advice) async {
@@ -70,8 +67,7 @@ class DatabaseImpl {
       return db.update(ADVICE_TABLE, {CONTENT_COLUMN: advice.mainContent},
           where: '$ID_COLUMN = ?', whereArgs: [existing.id]);
     } else {
-      int id = await db.insert(ADVICE_TABLE, advice.toDatabaseMap(),
-          conflictAlgorithm: ConflictAlgorithm.replace);
+      int id = await db.insert(ADVICE_TABLE, advice.toDatabaseMap(), conflictAlgorithm: ConflictAlgorithm.replace);
       advice.id = id;
       return id;
     }
@@ -79,7 +75,16 @@ class DatabaseImpl {
 
   Future<List<Advice>> getAdvices() async {
     final Database db = await _flutterDao;
-    final List<Map<String, dynamic>> maps = await db.query(ADVICE_TABLE);
+    final List<Map<String, dynamic>> maps = await db.query(ADVICE_TABLE, orderBy: CREATED_AT_COLUMN + " DESC");
+    return List.generate(maps.length, (i) {
+      return Advice.fromDatabaseMap(maps[i]);
+    });
+  }
+
+  Future<List<Advice>> getAdvicesByType(String type) async {
+    final Database db = await _flutterDao;
+    final List<Map<String, dynamic>> maps = await db.query(ADVICE_TABLE,
+        orderBy: CREATED_AT_COLUMN + " DESC", where: '$TYPE_COLUMN = ?', whereArgs: [type]);
     return List.generate(maps.length, (i) {
       return Advice.fromDatabaseMap(maps[i]);
     });
@@ -87,8 +92,8 @@ class DatabaseImpl {
 
   Future<List<Advice>> getFavouriteAdvices() async {
     final Database db = await _flutterDao;
-    final List<Map<String, dynamic>> maps = await db
-        .query(ADVICE_TABLE, where: '$IS_FAVOURITE_COLUMN = ?', whereArgs: [1]);
+    final List<Map<String, dynamic>> maps =
+        await db.query(ADVICE_TABLE, where: '$IS_FAVOURITE_COLUMN = ?', whereArgs: [1]);
     return List.generate(maps.length, (i) {
       return Advice.fromDatabaseMap(maps[i]);
     });
@@ -96,15 +101,19 @@ class DatabaseImpl {
 
   Future<Advice> markAsFavourite(int id, bool isFavourite) async {
     final Database db = await _flutterDao;
-    db.update(ADVICE_TABLE, {IS_FAVOURITE_COLUMN: isFavourite ? 1 : 0},
-        where: '$ID_COLUMN = ?', whereArgs: [id]);
+    db.update(ADVICE_TABLE, {IS_FAVOURITE_COLUMN: isFavourite ? 1 : 0}, where: '$ID_COLUMN = ?', whereArgs: [id]);
+    return await getAdvice(id);
+  }
+
+  Future<Advice> setAdviceViews(int id, int views) async {
+    final Database db = await _flutterDao;
+    db.update(ADVICE_TABLE, {VIEWS_COLUMN: views}, where: '$ID_COLUMN = ?', whereArgs: [id]);
     return await getAdvice(id);
   }
 
   Future<Advice> getAdvice(int id) async {
     final Database db = await _flutterDao;
-    List<Map> advice = await db.query(ADVICE_TABLE,
-        where: '$ID_COLUMN = ?', whereArgs: [id], limit: 1);
+    List<Map> advice = await db.query(ADVICE_TABLE, where: '$ID_COLUMN = ?', whereArgs: [id], limit: 1);
     return Advice.fromDatabaseMap(advice.first);
   }
 }

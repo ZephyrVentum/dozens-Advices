@@ -6,16 +6,14 @@ abstract class HistoryEvent {}
 
 class LoadAdvicesEvent extends HistoryEvent {}
 
-class SortByDateAddedEvent extends HistoryEvent {}
+class SortAdvicesEvent extends HistoryEvent {
+  final int sortIndex;
 
-class SortByDateViewedEvent extends HistoryEvent {}
-
-class SortByMostPopularEvent extends HistoryEvent {}
-
-class SortByMostUnpopularEvent extends HistoryEvent {}
+  SortAdvicesEvent(this.sortIndex);
+}
 
 class FilterByTypeEvent extends HistoryEvent {
-  final AdviceType adviceType;
+  final int filterIndex;
 
-  FilterByTypeEvent(this.adviceType);
+  FilterByTypeEvent(this.filterIndex);
 }

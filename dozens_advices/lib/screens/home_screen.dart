@@ -22,11 +22,9 @@ class HomeScreen {
               BlocProvider<TabBloc>(
                 builder: (context) => TabBloc(),
               ),
-              BlocProvider<NewAdviceBloc>(
-                  builder: (context) => NewAdviceBloc()),
+              BlocProvider<NewAdviceBloc>(builder: (context) => NewAdviceBloc()),
               BlocProvider<HistoryBloc>(builder: (context) => HistoryBloc()),
-              BlocProvider<FavouritesBloc>(
-                  builder: (context) => FavouritesBloc())
+              BlocProvider<FavouritesBloc>(builder: (context) => FavouritesBloc())
             ],
           ));
 }
@@ -36,22 +34,19 @@ class _ScreenLayout extends StatefulWidget {
   State<StatefulWidget> createState() => _ScreenLayoutState();
 }
 
-class _ScreenLayoutState extends State<_ScreenLayout>
-    with TickerProviderStateMixin {
+class _ScreenLayoutState extends State<_ScreenLayout> with TickerProviderStateMixin {
   TabController _tabController;
   TabBloc _tabBloc;
-
-  set currentTabIndex(int value) =>
-      _tabBloc.dispatch(SelectPositionEvent(value));
+  HistoryBloc _historyBloc;
 
   @override
   void initState() {
     super.initState();
     _tabBloc = BlocProvider.of<TabBloc>(context);
+    _historyBloc = BlocProvider.of<HistoryBloc>(context);
     _tabController = TabController(length: Tabs.values.length, vsync: this)
       ..addListener(() {
-
-        currentTabIndex = _tabController.index;
+        _tabBloc.dispatch(SelectPositionEvent(_tabController.index));
       });
   }
 
@@ -64,28 +59,20 @@ class _ScreenLayoutState extends State<_ScreenLayout>
           Scaffold(
             backgroundColor: Color(0xEEFFFFFF),
             appBar: GradientAppBar(
+              actions: _getAppBarActions((state as SelectedTabState).selectedTab),
               backgroundColorStart: Styles.startGradientColor,
               backgroundColorEnd: Styles.endGradientColor,
               title: RichText(
                   text: TextSpan(children: [
-                TextSpan(
-                    text: Strings.dozensLogo,
-                    style: Styles.boldAppBarTextStyle(context)),
+                TextSpan(text: Strings.dozensLogo, style: Styles.boldAppBarTextStyle(context)),
                 TextSpan(text: "  "),
-                TextSpan(
-                    text: Strings.advicesLogo,
-                    style: Theme.of(context).textTheme.title)
+                TextSpan(text: Strings.advicesLogo, style: Theme.of(context).textTheme.title)
               ])),
             ),
             bottomNavigationBar: _buildBottomNavTabBar(),
             body: TabBarView(
               controller: _tabController,
-              children: <Widget>[
-                NewAdviceScreen(),
-                ConfigureScreen(),
-                HistoryScreen(),
-                FavouritesScreen()
-              ],
+              children: <Widget>[NewAdviceScreen(), ConfigureScreen(), HistoryScreen(), FavouritesScreen()],
             ),
           ),
           _buildHomeTabBarButton()
@@ -94,6 +81,70 @@ class _ScreenLayoutState extends State<_ScreenLayout>
       bloc: BlocProvider.of<TabBloc>(context),
     );
   }
+
+  List<Widget> _getAppBarActions(Tabs tab) {
+    List<Widget> actions = List();
+    switch (tab) {
+      case Tabs.History:
+        actions.add(Material(
+          color: Colors.transparent,
+          child: PopupMenuButton<String>(
+            onSelected: (menuTitle){
+              _historyBloc.dispatch(SortAdvicesEvent(Strings.sortMenuTitles.indexOf(menuTitle)));
+            },
+            icon: Icon(Icons.sort),
+            itemBuilder: (context) {
+              int selectedSortIndex = _historyBloc.sortIndex;
+              return Strings.sortMenuTitles.map((String element) {
+                return PopupMenuItem<String>(
+                  value: element,
+                    child: Row(
+                  children: <Widget>[
+                    Expanded(child: Text(element, style: Theme.of(context).textTheme.display2.copyWith(fontSize: 18))),
+                    Icon(Icons.done,
+                        color: Strings.sortMenuTitles.indexOf(element) == selectedSortIndex
+                            ? Styles.averageGradientColor
+                            : Colors.transparent)
+                  ],
+                ));
+              }).toList();
+            },
+          ),
+        ));
+
+        actions.add(Material(
+          color: Colors.transparent,
+          child: PopupMenuButton<String>(
+            onSelected: (menuTitle){
+              _historyBloc.dispatch(FilterByTypeEvent(Strings.filterMenuTitles.indexOf(menuTitle)));
+            },
+            icon: Icon(Icons.filter_list),
+            itemBuilder: (_) {
+              int selectedFilterIndex = _historyBloc.filterIndex;
+              return Strings.filterMenuTitles.map((String element) {
+                return PopupMenuItem<String>(
+                  value: element,
+                    child: Row(
+                  children: <Widget>[
+                    Expanded(child: Text(element, style: Theme.of(context).textTheme.display2.copyWith(fontSize: 18))),
+                    Icon(Icons.done,
+                        color: Strings.filterMenuTitles.indexOf(element) == selectedFilterIndex
+                            ? Styles.averageGradientColor
+                            : Colors.transparent)
+                  ],
+                ));
+              }).toList();
+            },
+          ),
+        ));
+        break;
+      default:
+        break;
+    }
+    return actions;
+  }
+
+
 
   Widget _buildHomeTabBarButton() {
     return SafeArea(
@@ -111,7 +162,7 @@ class _ScreenLayoutState extends State<_ScreenLayout>
               splashColor: Colors.black26,
               borderRadius: BorderRadius.all(Radius.circular(50)),
               onTap: () {
-                currentTabIndex = 0;
+                _tabController.index = 0;
               },
               child: Padding(
                 padding: const EdgeInsets.only(left: 9, bottom: 12),
@@ -123,18 +174,14 @@ class _ScreenLayoutState extends State<_ScreenLayout>
                     Hero(
                       tag: aHero,
                       child: Image(
-                          color: _tabController.index == 0
-                              ? Colors.black
-                              : Styles.inactiveHomeTabColor,
+                          color: _tabController.index == 0 ? Colors.black : Styles.inactiveHomeTabColor,
                           width: 20,
                           image: AssetImage("assets/images/d_logo.png")),
                     ),
                     Hero(
                       tag: dHero,
                       child: Image(
-                          color: _tabController.index == 0
-                              ? Colors.black
-                              : Styles.inactiveHomeTabColor,
+                          color: _tabController.index == 0 ? Colors.black : Styles.inactiveHomeTabColor,
                           width: 21,
                           image: AssetImage("assets/images/a_logo.png")),
                     )
@@ -146,9 +193,7 @@ class _ScreenLayoutState extends State<_ScreenLayout>
           decoration: new BoxDecoration(
             color: Styles.startGradientColor,
             border: Border.all(
-                color: _tabController.index == 0
-                    ? Colors.black
-                    : Styles.inactiveHomeTabColor,
+                color: _tabController.index == 0 ? Colors.black : Styles.inactiveHomeTabColor,
                 width: _tabController.index == 0 ? 6 : 5),
             shape: BoxShape.circle,
           ),
@@ -160,7 +205,7 @@ class _ScreenLayoutState extends State<_ScreenLayout>
   Widget _buildBottomNavTabBar() {
     return GradientBottomNavigationBar(
       onTap: (pos) {
-        currentTabIndex = pos;
+        _tabController.index = pos;
       },
       backgroundColorStart: Styles.startGradientColor,
       backgroundColorEnd: Styles.endGradientColor,
@@ -177,13 +222,11 @@ class _ScreenLayoutState extends State<_ScreenLayout>
             )),
         BottomNavigationBarItem(
             icon: Icon(Icons.list),
-            title:
-                Text(Strings.historyTab, style: Styles.tabTextStyle(context)),
+            title: Text(Strings.historyTab, style: Styles.tabTextStyle(context)),
             activeIcon: Icon(Icons.format_list_bulleted)),
         BottomNavigationBarItem(
             icon: Icon(Icons.favorite_border),
-            title: Text(Strings.favouritesTab,
-                style: Styles.tabTextStyle(context)),
+            title: Text(Strings.favouritesTab, style: Styles.tabTextStyle(context)),
             activeIcon: Icon(Icons.favorite)),
       ],
     );

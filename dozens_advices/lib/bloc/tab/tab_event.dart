@@ -9,9 +9,3 @@ class SelectPositionEvent extends TabEvent {
 
   SelectPositionEvent(this.position);
 }
-
-class ShowAdviceDetailsEvent extends TabEvent {
-  final Advice advice;
-
-  ShowAdviceDetailsEvent(this.advice);
-}

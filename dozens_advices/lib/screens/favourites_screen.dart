@@ -15,10 +15,14 @@ class FavouritesScreen extends StatefulWidget {
 
 class _FavouritesScreenState extends State<FavouritesScreen> {
   FavouritesBloc _favouritesBloc;
+  NewAdviceBloc _newAdviceBloc;
+  TabBloc _tabBloc;
 
   @override
   void initState() {
     _favouritesBloc = BlocProvider.of<FavouritesBloc>(context);
+    _newAdviceBloc = BlocProvider.of<NewAdviceBloc>(context);
+    _tabBloc = BlocProvider.of<TabBloc>(context);
     _favouritesBloc.dispatch(LoadFavouriteAdvicesEvent());
     super.initState();
   }
@@ -42,10 +46,14 @@ class _FavouritesScreenState extends State<FavouritesScreen> {
     );
   }
 
-  Widget _buildLoadedState(List<Advice> advices) =>
-      AdvicesList(advices: advices);
+  Widget _buildLoadedState(List<Advice> advices) => AdvicesList(advices: advices, onItemSelected: onAdviceSelected);
 
   Widget _buildInitialState() => _buildLoadingState();
 
   Widget _buildLoadingState() => Center(child: ProgressBar());
+
+  void onAdviceSelected(Advice advice) {
+    _newAdviceBloc.dispatch(ShowAdviceEvent(advice));
+    _tabBloc.dispatch(SelectPositionEvent(0));
+  }
 }

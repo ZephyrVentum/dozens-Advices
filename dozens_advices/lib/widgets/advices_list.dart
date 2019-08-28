@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 class AdvicesList extends StatelessWidget {
-  AdvicesList({Key key, this.advices}) : super(key: key);
+  AdvicesList({Key key, this.advices, this.onItemSelected}) : super(key: key);
 
   final DateFormat _formatter = DateFormat('dd/MM/yyyy');
 
@@ -20,7 +20,9 @@ class AdvicesList extends StatelessWidget {
           child: InkWell(
             highlightColor: Styles.highlightInkWellColor,
             splashColor: Colors.black26,
-            onTap: () {},
+            onTap: () {
+              onItemSelected(advices[index]);
+            },
             child: ListTile(
                 contentPadding:
                     EdgeInsets.symmetric(vertical: 4, horizontal: 16),
@@ -83,4 +85,5 @@ class AdvicesList extends StatelessWidget {
   }
 
   final List<Advice> advices;
+  final Function(Advice) onItemSelected;
 }
