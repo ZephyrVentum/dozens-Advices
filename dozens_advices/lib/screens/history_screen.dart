@@ -1,5 +1,6 @@
 import 'package:dozens_advices/bloc/bloc.dart';
 import 'package:dozens_advices/data/database/advice.dart';
+import 'package:dozens_advices/screens/home_screen.dart';
 import 'package:dozens_advices/widgets/advices_list.dart';
 import 'package:dozens_advices/widgets/progress_bar.dart';
 import 'package:flutter/material.dart';
@@ -16,13 +17,11 @@ class HistoryScreen extends StatefulWidget {
 class _HistoryScreenState extends State<HistoryScreen> {
   HistoryBloc _historyBloc;
   NewAdviceBloc _newAdviceBloc;
-  TabBloc _tabBloc;
 
   @override
   void initState() {
     _historyBloc = BlocProvider.of<HistoryBloc>(context);
     _newAdviceBloc = BlocProvider.of<NewAdviceBloc>(context);
-    _tabBloc = BlocProvider.of<TabBloc>(context);
     _historyBloc.dispatch(LoadAdvicesEvent());
     super.initState();
   }
@@ -45,15 +44,14 @@ class _HistoryScreenState extends State<HistoryScreen> {
         });
   }
 
-  Widget _buildLoadedState(List<Advice> advices) =>
-      AdvicesList(advices: advices, onItemSelected: onAdviceSelected,);
+  Widget _buildLoadedState(List<Advice> advices) => AdvicesList(advices: advices, onItemSelected: onAdviceSelected);
 
   Widget _buildInitialState() => _buildLoadingState();
 
   Widget _buildLoadingState() => Center(child: ProgressBar());
-  
-  void onAdviceSelected(Advice advice){
+
+  void onAdviceSelected(Advice advice) {
     _newAdviceBloc.dispatch(ShowAdviceEvent(advice));
-    _tabBloc.dispatch(SelectPositionEvent(0));
+    TabControlInheritedWidget.of(context).tabController.index = 0;
   }
 }

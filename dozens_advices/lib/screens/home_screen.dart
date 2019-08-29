@@ -32,6 +32,8 @@ class HomeScreen {
 class _ScreenLayout extends StatefulWidget {
   @override
   State<StatefulWidget> createState() => _ScreenLayoutState();
+
+  static final _myTabbedPageKey = new GlobalKey<_ScreenLayoutState>();
 }
 
 class _ScreenLayoutState extends State<_ScreenLayout> with TickerProviderStateMixin {
@@ -46,40 +48,62 @@ class _ScreenLayoutState extends State<_ScreenLayout> with TickerProviderStateMi
     _historyBloc = BlocProvider.of<HistoryBloc>(context);
     _tabController = TabController(length: Tabs.values.length, vsync: this)
       ..addListener(() {
-        _tabBloc.dispatch(SelectPositionEvent(_tabController.index));
+        _tabBloc.dispatch(SelectPositionEvent(Tabs.values[_tabController.index]));
       });
   }
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder(
-      builder: (_, state) {
-        _tabController.index = (state as SelectedTabState).selectedTab.index;
-        return Stack(children: <Widget>[
-          Scaffold(
-            backgroundColor: Color(0xEEFFFFFF),
-            appBar: GradientAppBar(
-              actions: _getAppBarActions((state as SelectedTabState).selectedTab),
-              backgroundColorStart: Styles.startGradientColor,
-              backgroundColorEnd: Styles.endGradientColor,
-              title: RichText(
-                  text: TextSpan(children: [
-                TextSpan(text: Strings.dozensLogo, style: Styles.boldAppBarTextStyle(context)),
-                TextSpan(text: "  "),
-                TextSpan(text: Strings.advicesLogo, style: Theme.of(context).textTheme.title)
-              ])),
+    return TabControlInheritedWidget(
+      _tabController,
+      child: BlocBuilder(
+        builder: (_, state) {
+          Tabs selectedTab = (state as SelectedTabState).selectedTab;
+          return Stack(children: <Widget>[
+            Scaffold(
+              backgroundColor: Color(0xEEFFFFFF),
+              appBar: GradientAppBar(
+                actions: _getAppBarActions(selectedTab),
+                backgroundColorStart: Styles.startGradientColor,
+                backgroundColorEnd: Styles.endGradientColor,
+                title: _getAppBarTitle(selectedTab),
+              ),
+              bottomNavigationBar: _buildBottomNavTabBar(),
+              body: TabBarView(
+                controller: _tabController,
+                children: <Widget>[NewAdviceScreen(), ConfigureScreen(), HistoryScreen(), FavouritesScreen()],
+              ),
             ),
-            bottomNavigationBar: _buildBottomNavTabBar(),
-            body: TabBarView(
-              controller: _tabController,
-              children: <Widget>[NewAdviceScreen(), ConfigureScreen(), HistoryScreen(), FavouritesScreen()],
-            ),
-          ),
-          _buildHomeTabBarButton()
-        ]);
-      },
-      bloc: BlocProvider.of<TabBloc>(context),
+            _buildHomeTabBarButton()
+          ]);
+        },
+        bloc: BlocProvider.of<TabBloc>(context),
+      ),
     );
+  }
+
+  Widget _getAppBarTitle(Tabs tab) {
+    Widget title;
+    switch (tab) {
+      case Tabs.NewAdvice:
+        title = RichText(
+            text: TextSpan(children: [
+          TextSpan(text: Strings.dozensLogo, style: Styles.boldAppBarTextStyle(context)),
+          TextSpan(text: "  "),
+          TextSpan(text: Strings.advicesLogo, style: Theme.of(context).textTheme.title)
+        ]));
+        break;
+      case Tabs.Configurations:
+        title = Text(Strings.configureTab, style: Theme.of(context).textTheme.title);
+        break;
+      case Tabs.History:
+        title = Text(Strings.historyTab, style: Theme.of(context).textTheme.title);
+        break;
+      case Tabs.Favourites:
+        title = Text(Strings.favouritesTab, style: Theme.of(context).textTheme.title);
+        break;
+    }
+    return title;
   }
 
   List<Widget> _getAppBarActions(Tabs tab) {
@@ -89,7 +113,7 @@ class _ScreenLayoutState extends State<_ScreenLayout> with TickerProviderStateMi
         actions.add(Material(
           color: Colors.transparent,
           child: PopupMenuButton<String>(
-            onSelected: (menuTitle){
+            onSelected: (menuTitle) {
               _historyBloc.dispatch(SortAdvicesEvent(Strings.sortMenuTitles.indexOf(menuTitle)));
             },
             icon: Icon(Icons.sort),
@@ -97,16 +121,17 @@ class _ScreenLayoutState extends State<_ScreenLayout> with TickerProviderStateMi
               int selectedSortIndex = _historyBloc.sortIndex;
               return Strings.sortMenuTitles.map((String element) {
                 return PopupMenuItem<String>(
-                  value: element,
+                    value: element,
                     child: Row(
-                  children: <Widget>[
-                    Expanded(child: Text(element, style: Theme.of(context).textTheme.display2.copyWith(fontSize: 18))),
-                    Icon(Icons.done,
-                        color: Strings.sortMenuTitles.indexOf(element) == selectedSortIndex
-                            ? Styles.averageGradientColor
-                            : Colors.transparent)
-                  ],
-                ));
+                      children: <Widget>[
+                        Expanded(
+                            child: Text(element, style: Theme.of(context).textTheme.display2.copyWith(fontSize: 18))),
+                        Icon(Icons.done,
+                            color: Strings.sortMenuTitles.indexOf(element) == selectedSortIndex
+                                ? Styles.averageGradientColor
+                                : Colors.transparent)
+                      ],
+                    ));
               }).toList();
             },
           ),
@@ -115,7 +140,7 @@ class _ScreenLayoutState extends State<_ScreenLayout> with TickerProviderStateMi
         actions.add(Material(
           color: Colors.transparent,
           child: PopupMenuButton<String>(
-            onSelected: (menuTitle){
+            onSelected: (menuTitle) {
               _historyBloc.dispatch(FilterByTypeEvent(Strings.filterMenuTitles.indexOf(menuTitle)));
             },
             icon: Icon(Icons.filter_list),
@@ -123,16 +148,17 @@ class _ScreenLayoutState extends State<_ScreenLayout> with TickerProviderStateMi
               int selectedFilterIndex = _historyBloc.filterIndex;
               return Strings.filterMenuTitles.map((String element) {
                 return PopupMenuItem<String>(
-                  value: element,
+                    value: element,
                     child: Row(
-                  children: <Widget>[
-                    Expanded(child: Text(element, style: Theme.of(context).textTheme.display2.copyWith(fontSize: 18))),
-                    Icon(Icons.done,
-                        color: Strings.filterMenuTitles.indexOf(element) == selectedFilterIndex
-                            ? Styles.averageGradientColor
-                            : Colors.transparent)
-                  ],
-                ));
+                      children: <Widget>[
+                        Expanded(
+                            child: Text(element, style: Theme.of(context).textTheme.display2.copyWith(fontSize: 18))),
+                        Icon(Icons.done,
+                            color: Strings.filterMenuTitles.indexOf(element) == selectedFilterIndex
+                                ? Styles.averageGradientColor
+                                : Colors.transparent)
+                      ],
+                    ));
               }).toList();
             },
           ),
@@ -143,8 +169,6 @@ class _ScreenLayoutState extends State<_ScreenLayout> with TickerProviderStateMi
     }
     return actions;
   }
-
-
 
   Widget _buildHomeTabBarButton() {
     return SafeArea(
@@ -231,4 +255,16 @@ class _ScreenLayoutState extends State<_ScreenLayout> with TickerProviderStateMi
       ],
     );
   }
+}
+
+class TabControlInheritedWidget extends InheritedWidget {
+  TabControlInheritedWidget(this.tabController, {Widget child}) : super(child: child);
+
+  @override
+  bool updateShouldNotify(InheritedWidget oldWidget) => true;
+
+  final TabController tabController;
+
+  static TabControlInheritedWidget of(BuildContext context) =>
+      context.inheritFromWidgetOfExactType(TabControlInheritedWidget);
 }

@@ -1,5 +1,6 @@
 import 'package:dozens_advices/bloc/bloc.dart';
 import 'package:dozens_advices/data/database/advice.dart';
+import 'package:dozens_advices/screens/home_screen.dart';
 import 'package:dozens_advices/widgets/advices_list.dart';
 import 'package:dozens_advices/widgets/progress_bar.dart';
 import 'package:flutter/material.dart';
@@ -16,13 +17,11 @@ class FavouritesScreen extends StatefulWidget {
 class _FavouritesScreenState extends State<FavouritesScreen> {
   FavouritesBloc _favouritesBloc;
   NewAdviceBloc _newAdviceBloc;
-  TabBloc _tabBloc;
 
   @override
   void initState() {
     _favouritesBloc = BlocProvider.of<FavouritesBloc>(context);
     _newAdviceBloc = BlocProvider.of<NewAdviceBloc>(context);
-    _tabBloc = BlocProvider.of<TabBloc>(context);
     _favouritesBloc.dispatch(LoadFavouriteAdvicesEvent());
     super.initState();
   }
@@ -54,6 +53,6 @@ class _FavouritesScreenState extends State<FavouritesScreen> {
 
   void onAdviceSelected(Advice advice) {
     _newAdviceBloc.dispatch(ShowAdviceEvent(advice));
-    _tabBloc.dispatch(SelectPositionEvent(0));
+    TabControlInheritedWidget.of(context).tabController.index = 0;
   }
 }
