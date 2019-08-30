@@ -4,6 +4,7 @@ import 'package:bloc/bloc.dart';
 import 'package:dozens_advices/bloc/bloc.dart';
 import 'package:dozens_advices/data/database/advice.dart';
 import 'package:dozens_advices/data/repository.dart';
+import 'package:dozens_advices/resources/menu.dart';
 
 class HistoryBloc extends Bloc<HistoryEvent, HistoryState> {
   @override
@@ -13,8 +14,8 @@ class HistoryBloc extends Bloc<HistoryEvent, HistoryState> {
 
   List<Advice> advices;
 
-  int sortIndex = 0;
-  int filterIndex = 0;
+  SortType sortType = SortType.MostRecent;
+  String filterAdviceType;
 
   @override
   Stream<HistoryState> mapEventToState(
@@ -25,19 +26,18 @@ class HistoryBloc extends Bloc<HistoryEvent, HistoryState> {
         yield* _mapLoadAdvicesToState();
         break;
       case SortAdvicesEvent:
-        sortIndex = (event as SortAdvicesEvent).sortIndex;
-        yield* _mapToSortType(sortIndex);
+        sortType = (event as SortAdvicesEvent).type;
+        yield* _mapToSortType(sortType);
         break;
       case FilterByTypeEvent:
-        filterIndex = (event as FilterByTypeEvent).filterIndex;
-        yield* _mapFilterByTypeToState();
+        yield* _mapFilterByTypeToState((event as FilterByTypeEvent));
         break;
     }
   }
 
   Stream<HistoryState> _mapLoadAdvicesToState() async* {
     advices = await _repository.getAdvicesHistory();
-    yield* _mapToSortType(sortIndex);
+    yield* _mapToSortType(sortType);
   }
 
   Stream<HistoryState> _mapSortMostRecentToState() async* {
@@ -60,18 +60,18 @@ class HistoryBloc extends Bloc<HistoryEvent, HistoryState> {
     yield LoadedHistoryState(advices);
   }
 
-  Stream<HistoryState> _mapToSortType(int sortIndex) async* {
-    switch (sortIndex) {
-      case 0:
+  Stream<HistoryState> _mapToSortType(SortType sortType) async* {
+    switch (sortType) {
+      case SortType.MostRecent:
         yield* _mapSortMostRecentToState();
         break;
-      case 1:
+      case SortType.TheOldest:
         yield* _mapSortTheOldestToState();
         break;
-      case 2:
+      case SortType.MostPopular:
         yield* _mapSortMostPopularToState();
         break;
-      case 3:
+      case SortType.MostUnpopular:
         yield* _mapSortMostUnpopularToState();
         break;
       default:
@@ -79,24 +79,11 @@ class HistoryBloc extends Bloc<HistoryEvent, HistoryState> {
     }
   }
 
-  Stream<HistoryState> _mapFilterByTypeToState() async* {
-    String adviceType;
-    switch (filterIndex) {
-      case 1:
-        adviceType = AdviceType.ADVICE;
-        break;
-      case 2:
-        adviceType = AdviceType.JOKE;
-        break;
-      case 3:
-        adviceType = AdviceType.QUOTE;
-        break;
-      case 4:
-        adviceType = AdviceType.FACT;
-    }
-    if (adviceType != null) {
-      advices = await _repository.getAdvicesByType(adviceType);
-      yield* _mapToSortType(sortIndex);
+  Stream<HistoryState> _mapFilterByTypeToState(FilterByTypeEvent event) async* {
+    filterAdviceType = event.type;
+    if (filterAdviceType != null) {
+      advices = await _repository.getAdvicesByType(filterAdviceType);
+      yield* _mapToSortType(sortType);
     } else {
       yield* _mapLoadAdvicesToState();
     }

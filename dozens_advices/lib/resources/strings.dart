@@ -2,23 +2,6 @@
 class Strings{
   Strings._internal();
 
-  static final List<String> sortMenuTitles = List()
-    ..addAll([
-      Strings.sortMostRecentHistory,
-      Strings.sortTheOldestHistory,
-      Strings.sortMostPopularHistory,
-      Strings.sortMostUnpopularHistory
-    ]);
-
-  static final List<String> filterMenuTitles = List()
-    ..addAll([
-      Strings.filterAllHistory,
-      Strings.filterOnlyAdvicesHistory,
-      Strings.filterOnlyJokesHistory,
-      Strings.filterOnlyQuotesHistory,
-      Strings.filterOnlyFactsHistory
-    ]);
-
   //general
   static final String dozensLogo = "dozens";
   static final String advicesLogo = "Advices";

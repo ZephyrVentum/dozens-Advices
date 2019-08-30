@@ -1,4 +1,5 @@
 import 'package:dozens_advices/data/database/advice.dart';
+import 'package:dozens_advices/resources/menu.dart';
 import 'package:meta/meta.dart';
 
 @immutable
@@ -7,13 +8,13 @@ abstract class HistoryEvent {}
 class LoadAdvicesEvent extends HistoryEvent {}
 
 class SortAdvicesEvent extends HistoryEvent {
-  final int sortIndex;
+  final SortType type;
 
-  SortAdvicesEvent(this.sortIndex);
+  SortAdvicesEvent(this.type);
 }
 
 class FilterByTypeEvent extends HistoryEvent {
-  final int filterIndex;
+  final String type;
 
-  FilterByTypeEvent(this.filterIndex);
+  FilterByTypeEvent(this.type);
 }

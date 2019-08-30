@@ -1,5 +1,6 @@
 import 'package:dozens_advices/bloc/bloc.dart';
 import 'package:dozens_advices/bloc/new_advice/new_advice_bloc.dart';
+import 'package:dozens_advices/resources/menu.dart';
 import 'package:dozens_advices/resources/strings.dart';
 import 'package:dozens_advices/resources/styles.dart';
 import 'package:dozens_advices/screens/configure_screen.dart';
@@ -32,8 +33,6 @@ class HomeScreen {
 class _ScreenLayout extends StatefulWidget {
   @override
   State<StatefulWidget> createState() => _ScreenLayoutState();
-
-  static final _myTabbedPageKey = new GlobalKey<_ScreenLayoutState>();
 }
 
 class _ScreenLayoutState extends State<_ScreenLayout> with TickerProviderStateMixin {
@@ -112,22 +111,22 @@ class _ScreenLayoutState extends State<_ScreenLayout> with TickerProviderStateMi
       case Tabs.History:
         actions.add(Material(
           color: Colors.transparent,
-          child: PopupMenuButton<String>(
-            onSelected: (menuTitle) {
-              _historyBloc.dispatch(SortAdvicesEvent(Strings.sortMenuTitles.indexOf(menuTitle)));
+          child: PopupMenuButton<SortMenuItem>(
+            onSelected: (menuItem) {
+              _historyBloc.dispatch(SortAdvicesEvent(menuItem.sortType));
             },
             icon: Icon(Icons.sort),
             itemBuilder: (context) {
-              int selectedSortIndex = _historyBloc.sortIndex;
-              return Strings.sortMenuTitles.map((String element) {
-                return PopupMenuItem<String>(
-                    value: element,
+              SortType selectedSortType = _historyBloc.sortType;
+              return Menus.sortMenu.map((SortMenuItem menuItem) {
+                return PopupMenuItem<SortMenuItem>(
+                    value: menuItem,
                     child: Row(
                       children: <Widget>[
                         Expanded(
-                            child: Text(element, style: Theme.of(context).textTheme.display2.copyWith(fontSize: 18))),
+                            child: Text(menuItem.title, style: Theme.of(context).textTheme.display2.copyWith(fontSize: 18))),
                         Icon(Icons.done,
-                            color: Strings.sortMenuTitles.indexOf(element) == selectedSortIndex
+                            color: menuItem.sortType == selectedSortType
                                 ? Styles.averageGradientColor
                                 : Colors.transparent)
                       ],
@@ -139,22 +138,22 @@ class _ScreenLayoutState extends State<_ScreenLayout> with TickerProviderStateMi
 
         actions.add(Material(
           color: Colors.transparent,
-          child: PopupMenuButton<String>(
-            onSelected: (menuTitle) {
-              _historyBloc.dispatch(FilterByTypeEvent(Strings.filterMenuTitles.indexOf(menuTitle)));
+          child: PopupMenuButton<FilterMenuItem>(
+            onSelected: (menuItem) {
+              _historyBloc.dispatch(FilterByTypeEvent(menuItem.adviceType));
             },
             icon: Icon(Icons.filter_list),
             itemBuilder: (_) {
-              int selectedFilterIndex = _historyBloc.filterIndex;
-              return Strings.filterMenuTitles.map((String element) {
-                return PopupMenuItem<String>(
-                    value: element,
+              String selectedFilterType = _historyBloc.filterAdviceType;
+              return Menus.filterMenu.map((FilterMenuItem menuItem) {
+                return PopupMenuItem<FilterMenuItem>(
+                    value: menuItem,
                     child: Row(
                       children: <Widget>[
                         Expanded(
-                            child: Text(element, style: Theme.of(context).textTheme.display2.copyWith(fontSize: 18))),
+                            child: Text(menuItem.title, style: Theme.of(context).textTheme.display2.copyWith(fontSize: 18))),
                         Icon(Icons.done,
-                            color: Strings.filterMenuTitles.indexOf(element) == selectedFilterIndex
+                            color: menuItem.adviceType == selectedFilterType
                                 ? Styles.averageGradientColor
                                 : Colors.transparent)
                       ],
