@@ -10,12 +10,12 @@ const String _ADVICE_PATH = _BASE_URL + "/advice";
 class SlipAdviceResponse extends Advisable {
   static const _SLIP_REMOTE_KEY = "slip";
 
-  final Slip slip;
+  final _Slip slip;
 
-  SlipAdviceResponse({this.slip});
+  SlipAdviceResponse._internal({this.slip});
 
   factory SlipAdviceResponse.fromJson(Map<String, dynamic> json) =>
-      SlipAdviceResponse(slip: Slip.fromJson(json[_SLIP_REMOTE_KEY]));
+      SlipAdviceResponse._internal(slip: _Slip.fromJson(json[_SLIP_REMOTE_KEY]));
 
   @override
   Advice toAdvice() {
@@ -30,17 +30,17 @@ class SlipAdviceResponse extends Advisable {
   }
 }
 
-class Slip {
+class _Slip {
   static const _ADVICE_REMOTE_KEY = "advice";
   static const _SLIP_ID_REMOTE_KEY = "slip_id";
 
   final String advice;
   final String slipId;
 
-  Slip({this.advice, this.slipId});
+  _Slip({this.advice, this.slipId});
 
-  factory Slip.fromJson(Map<String, dynamic> json) =>
-      Slip(advice: json[_ADVICE_REMOTE_KEY], slipId: json[_SLIP_ID_REMOTE_KEY]);
+  factory _Slip.fromJson(Map<String, dynamic> json) =>
+      _Slip(advice: json[_ADVICE_REMOTE_KEY], slipId: json[_SLIP_ID_REMOTE_KEY]);
 }
 
 class SlipAdviceNetworkManager with CanMakeNetworkRequest<SlipAdviceResponse> {
