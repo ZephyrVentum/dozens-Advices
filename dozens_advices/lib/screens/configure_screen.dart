@@ -47,7 +47,7 @@ class _ConfigureScreenState extends State<ConfigureScreen> {
             height: 8,
           ),
           buildSliderSection(
-              Strings.moralityConfigure, Strings.amoralConfigure, Strings.cherubicConfigure, configs.molarity, (value) {
+              Strings.moralityConfigure, Strings.amoralConfigure, Strings.cherubicConfigure, configs.morality, (value) {
             _configureBloc.dispatch(MolarityConfigureEvent(value));
           }),
           SizedBox(

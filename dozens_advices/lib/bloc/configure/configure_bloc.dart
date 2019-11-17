@@ -34,7 +34,7 @@ class ConfigureBloc extends Bloc<ConfigureEvent, ConfigureState> {
         break;
       case ShuffleConfigureEvent:
         Random random = Random();
-        configs = Configs(molarity: random.nextDouble(), politics: random.nextDouble(), geek: random.nextDouble());
+        configs = Configs(morality: random.nextDouble(), politics: random.nextDouble(), geek: random.nextDouble());
         repository.saveConfigs(configs);
         yield* Stream.value(InitialConfigureState(configs));
         break;
@@ -46,11 +46,11 @@ class ConfigureBloc extends Bloc<ConfigureEvent, ConfigureState> {
 
   Stream<ConfigureState> _mapLoadStoredToState() async* {
     configs = await repository.getConfigs();
-    yield InitialConfigureState(configs);
+    yield InitialConfigureState(configs ?? Configs());
   }
 
   Stream<ConfigureState> _mapUpdateConfigsToState({double morality, double politics, double geek}) async* {
-    configs.molarity = morality ?? configs.molarity;
+    configs.morality = morality ?? configs.morality;
     configs.politics = politics ?? configs.politics;
     configs.geek = geek ?? configs.geek;
     repository.saveConfigs(configs);

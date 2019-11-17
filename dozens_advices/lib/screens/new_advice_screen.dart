@@ -186,7 +186,7 @@ class _NewAdviceScreenState extends State<NewAdviceScreen> {
                       children: <Widget>[
                         RaisedGradientButton(
                           onPressed: () {
-                            _newAdviceBloc.dispatch(SpeechAdviceEvent());
+                            _newAdviceBloc.dispatch(SpeechAdviceEvent(advice));
                           },
                           child: Icon(
                             Icons.volume_up,

@@ -3,11 +3,13 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:dozens_advices/data/database/advice.dart';
 import 'package:dozens_advices/data/repository.dart';
+import 'package:flutter_tts/flutter_tts.dart';
 
 import '../bloc.dart';
 
 class NewAdviceBloc extends Bloc<NewAdviceEvent, NewAdviceState> {
   Repository repository = Repository.getInstance();
+  FlutterTts flutterTts = new FlutterTts();
 
   @override
   NewAdviceState get initialState => InitialNewAdviceState();
@@ -27,6 +29,10 @@ class NewAdviceBloc extends Bloc<NewAdviceEvent, NewAdviceState> {
         yield* _mapShowAdviceToState((event as ShowAdviceEvent).advice);
         repository.updateAdviceLastSeen((event as ShowAdviceEvent).advice.id);
         break;
+      case SpeechAdviceEvent:
+        await flutterTts.stop();
+        await flutterTts.speak((event as SpeechAdviceEvent).advice.mainContent);
+        break;
     }
   }
 
@@ -44,7 +50,7 @@ class NewAdviceBloc extends Bloc<NewAdviceEvent, NewAdviceState> {
     yield LoadedAdviceState(await repository.markAdviceAsFavourite(advice.id, !advice.isFavourite));
   }
 
-  Stream<NewAdviceState> _mapShowAdviceToState(Advice advice) async*{
+  Stream<NewAdviceState> _mapShowAdviceToState(Advice advice) async* {
     yield LoadedAdviceState(await repository.setAdviceViews(advice.id, advice.views + 1));
   }
 }

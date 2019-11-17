@@ -10,9 +10,13 @@ class InitialConfigureState extends ConfigureState {
 }
 
 class Configs {
-  double molarity;
+  double morality;
   double politics;
   double geek;
 
-  Configs({this.molarity = 0.5, this.politics  = 0.5, this.geek  = 0.5});
+  Configs({double morality, double politics, double geek}) {
+    this.morality = morality ?? 0.5;
+    this.politics = politics ?? 0.5;
+    this.geek = geek ?? 0.5;
+  }
 }
