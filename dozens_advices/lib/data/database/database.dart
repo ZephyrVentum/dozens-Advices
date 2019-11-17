@@ -83,8 +83,8 @@ class DatabaseImpl {
 
   Future<List<Advice>> getAdvicesByType(String type) async {
     final Database db = await _flutterDao;
-    final List<Map<String, dynamic>> maps = await db.query(ADVICE_TABLE,
-        orderBy: CREATED_AT_COLUMN + " DESC", where: '$TYPE_COLUMN = ?', whereArgs: [type]);
+    final List<Map<String, dynamic>> maps = await db
+        .query(ADVICE_TABLE, orderBy: CREATED_AT_COLUMN + " DESC", where: '$TYPE_COLUMN = ?', whereArgs: [type]);
     return List.generate(maps.length, (i) {
       return Advice.fromDatabaseMap(maps[i]);
     });
@@ -108,6 +108,13 @@ class DatabaseImpl {
   Future<Advice> setAdviceViews(int id, int views) async {
     final Database db = await _flutterDao;
     db.update(ADVICE_TABLE, {VIEWS_COLUMN: views}, where: '$ID_COLUMN = ?', whereArgs: [id]);
+    return await getAdvice(id);
+  }
+
+  Future<Advice> updateAdviceLastSeen(int id) async {
+    final Database db = await _flutterDao;
+    db.update(ADVICE_TABLE, {VIEWED_AT_COLUMN: DateTime.now().microsecondsSinceEpoch},
+        where: '$ID_COLUMN = ?', whereArgs: [id]);
     return await getAdvice(id);
   }
 

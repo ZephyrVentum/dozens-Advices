@@ -25,6 +25,7 @@ class NewAdviceBloc extends Bloc<NewAdviceEvent, NewAdviceState> {
         break;
       case ShowAdviceEvent:
         yield* _mapShowAdviceToState((event as ShowAdviceEvent).advice);
+        repository.updateAdviceLastSeen((event as ShowAdviceEvent).advice.id);
         break;
     }
   }

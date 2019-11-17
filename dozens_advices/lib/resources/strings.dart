@@ -35,5 +35,17 @@ class Strings{
   static final String filterOnlyJokesHistory = "Only jokes";
   static final String filterOnlyQuotesHistory = "Only quotes";
   static final String filterOnlyFactsHistory = "Only facts";
+
+  //configure
+  static final String frequencyContentTypeConfigure = "Here you can adjust the frequency of the content type.";
+  static final String moralityConfigure = "Morality";
+  static final String amoralConfigure = "\#\$@^&*%";
+  static final String cherubicConfigure = "cherubic";
+  static final String politicsConfigure = "Politics";
+  static final String unpoliticalConfigure = "unpolitical";
+  static final String politicalConfigure = "donald trump";
+  static final String geekConfigure = "Geek";
+  static final String nerdConfigure = "<\/code\?\>";
+  static final String monkeyConfigure = "monkey";
 }
 

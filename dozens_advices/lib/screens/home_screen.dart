@@ -24,6 +24,7 @@ class HomeScreen {
                 builder: (context) => TabBloc(),
               ),
               BlocProvider<NewAdviceBloc>(builder: (context) => NewAdviceBloc()),
+              BlocProvider<ConfigureBloc>(builder: (context) => ConfigureBloc()),
               BlocProvider<HistoryBloc>(builder: (context) => HistoryBloc()),
               BlocProvider<FavouritesBloc>(builder: (context) => FavouritesBloc())
             ],

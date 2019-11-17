@@ -1,5 +1,7 @@
+import 'package:dozens_advices/bloc/bloc.dart';
 import 'package:dozens_advices/data/database/advice.dart';
 import 'package:dozens_advices/data/database/database.dart';
+import 'package:dozens_advices/data/database/storage.dart' as storage;
 import 'package:dozens_advices/data/network/network_service.dart';
 
 const _ATTEMPTS_COUNT = 5;
@@ -39,6 +41,8 @@ class Repository {
     return _database.markAsFavourite(id, isFavourite);
   }
 
+  updateAdviceLastSeen(int id) => _database.updateAdviceLastSeen(id);
+
   Future<Advice> setAdviceViews(int id, int views) async {
     return _database.setAdviceViews(id, views);
   }
@@ -46,6 +50,10 @@ class Repository {
   Future<List<Advice>> getAdvicesByType(String type) async {
     return _database.getAdvicesByType(type);
   }
+
+  Future saveConfigs(Configs configs) async => storage.saveConfigs(configs);
+
+  Future<Configs> getConfigs() async => storage.getConfigs();
 
   Future<Result<Advice>> _complete<I extends NetworkResult<Advisable>>(NetworkResult networkResult, attempt) async {
     if (networkResult is SuccessNetworkResult) {
