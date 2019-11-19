@@ -1,7 +1,14 @@
+import 'dart:convert';
+
 import 'package:dozens_advices/data/database/advice.dart';
 import 'package:dozens_advices/data/network/network_service.dart';
+import 'package:http/http.dart' as http;
 
 const String _BASE_URL = "https://sv443.net/jokeapi";
+const String _GEEK_CATEGORY = _BASE_URL + '/category/Programming';
+const String _MORALITY_CATEGORY = _BASE_URL + '/category/Programming';
+const String _NO_POLITICS = '?blacklistFlags=political';
+const String _GENERAL_CATEGORY = _BASE_URL + '/category/Miscellaneous';
 
 class Sv443Response extends Advisable {
   final String category;
@@ -47,6 +54,28 @@ class Sv443Response extends Advisable {
   static const id_key = "id";
 }
 
-class Sv443NetworkManager with CanMakeNetworkRequest<Sv443Response>{
+class Sv443NetworkManager with CanMakeNetworkRequest<Sv443Response> {
+  Future<NetworkResult<Sv443Response>> getMoralityAdvice({bool noPolitics = false}) async {
+    return makeRequest(
+        http.get(_MORALITY_CATEGORY + (noPolitics ? _NO_POLITICS : ''), headers: {'content-type': 'application/json'}),
+        (response) {
+      return Sv443Response.fromJson(jsonDecode(response.body));
+    });
+  }
 
+  Future<NetworkResult<Sv443Response>> getGeekAdvice({bool noPolitics = false}) async {
+    return makeRequest(
+        http.get(_GEEK_CATEGORY + (noPolitics ? _NO_POLITICS : ''), headers: {'content-type': 'application/json'}),
+        (response) {
+      return Sv443Response.fromJson(jsonDecode(response.body));
+    });
+  }
+
+  Future<NetworkResult<Sv443Response>> getGeneralAdvice({bool noPolitics = false}) async {
+    return makeRequest(
+        http.get(_GENERAL_CATEGORY + (noPolitics ? _NO_POLITICS : ''), headers: {'content-type': 'application/json'}),
+        (response) {
+      return Sv443Response.fromJson(jsonDecode(response.body));
+    });
+  }
 }

@@ -1,10 +1,11 @@
 import 'package:dozens_advices/data/database/advice.dart';
 import 'package:dozens_advices/data/network/slip_advice.dart';
+import 'package:dozens_advices/data/network/sv443.dart';
 import 'package:http/http.dart';
 
 const SUCCESS_CODE = 200;
 
-class NetworkService implements INetwork {
+class NetworkService {
   NetworkManager _networkManager;
 
   static NetworkService _networkService;
@@ -20,19 +21,28 @@ class NetworkService implements INetwork {
     return _networkService;
   }
 
-  Future<NetworkResult<SlipAdviceResponse>> getRandomSlipAdvice() {
+  Future<NetworkResult<SlipAdviceResponse>> getSlipAdvice() {
     return _networkManager.getSlipAdviceNetworkManager().getSlipAdvice();
   }
-}
 
-abstract class INetwork {
-  Future<NetworkResult<SlipAdviceResponse>> getRandomSlipAdvice();
+  Future<NetworkResult<Sv443Response>> getSV443MoralityAdvice({bool noPolitics = false}) {
+    return _networkManager.getSv443NetworkManager().getMoralityAdvice(noPolitics: noPolitics);
+  }
+
+  Future<NetworkResult<Sv443Response>> getSV443GeekAdvice({bool noPolitics = false}) {
+    return _networkManager.getSv443NetworkManager().getGeekAdvice(noPolitics: noPolitics);
+  }
+
+  Future<NetworkResult<Sv443Response>> getSV443GeneralAdvice({bool noPolitics = false}) {
+    return _networkManager.getSv443NetworkManager().getGeneralAdvice(noPolitics: noPolitics);
+  }
 }
 
 class NetworkManager {
   static NetworkManager _instance;
 
   SlipAdviceNetworkManager _slipAdviceNetworkManager;
+  Sv443NetworkManager _sv443networkManager;
 
   NetworkManager._internal();
 
@@ -48,6 +58,13 @@ class NetworkManager {
       _slipAdviceNetworkManager = SlipAdviceNetworkManager();
     }
     return _slipAdviceNetworkManager;
+  }
+
+  Sv443NetworkManager getSv443NetworkManager() {
+    if (_sv443networkManager == null) {
+      _sv443networkManager = Sv443NetworkManager();
+    }
+    return _sv443networkManager;
   }
 }
 

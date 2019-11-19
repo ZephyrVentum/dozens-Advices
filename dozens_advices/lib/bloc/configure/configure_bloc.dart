@@ -50,9 +50,13 @@ class ConfigureBloc extends Bloc<ConfigureEvent, ConfigureState> {
   }
 
   Stream<ConfigureState> _mapUpdateConfigsToState({double morality, double politics, double geek}) async* {
-    configs.morality = morality ?? configs.morality;
-    configs.politics = politics ?? configs.politics;
-    configs.geek = geek ?? configs.geek;
+    Configs tempConfigs = Configs(morality: configs.morality, politics: configs.politics, geek: configs.geek);
+    tempConfigs.morality = morality ?? configs.morality;
+    tempConfigs.politics = politics ?? configs.politics;
+    tempConfigs.geek = geek ?? configs.geek;
+    if (tempConfigs.morality + tempConfigs.politics + tempConfigs.geek >= 0.05) {
+      configs = tempConfigs;
+    }
     repository.saveConfigs(configs);
     yield InitialConfigureState(configs);
   }
