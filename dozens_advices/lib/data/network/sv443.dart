@@ -59,7 +59,7 @@ class Sv443NetworkManager with CanMakeNetworkRequest<Sv443Response> {
     return makeRequest(
         http.get(_MORALITY_CATEGORY + (noPolitics ? _NO_POLITICS : ''), headers: {'content-type': 'application/json'}),
         (response) {
-      return Sv443Response.fromJson(jsonDecode(response.body));
+          return Sv443Response.fromJson(jsonDecode(utf8.decode(response.bodyBytes)));
     });
   }
 
@@ -67,7 +67,7 @@ class Sv443NetworkManager with CanMakeNetworkRequest<Sv443Response> {
     return makeRequest(
         http.get(_GEEK_CATEGORY + (noPolitics ? _NO_POLITICS : ''), headers: {'content-type': 'application/json'}),
         (response) {
-      return Sv443Response.fromJson(jsonDecode(response.body));
+          return Sv443Response.fromJson(jsonDecode(utf8.decode(response.bodyBytes)));
     });
   }
 
@@ -75,7 +75,7 @@ class Sv443NetworkManager with CanMakeNetworkRequest<Sv443Response> {
     return makeRequest(
         http.get(_GENERAL_CATEGORY + (noPolitics ? _NO_POLITICS : ''), headers: {'content-type': 'application/json'}),
         (response) {
-      return Sv443Response.fromJson(jsonDecode(response.body));
+      return Sv443Response.fromJson(jsonDecode(utf8.decode(response.bodyBytes)));
     });
   }
 }
