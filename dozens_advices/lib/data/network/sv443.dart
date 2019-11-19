@@ -6,7 +6,7 @@ import 'package:http/http.dart' as http;
 
 const String _BASE_URL = "https://sv443.net/jokeapi";
 const String _GEEK_CATEGORY = _BASE_URL + '/category/Programming';
-const String _MORALITY_CATEGORY = _BASE_URL + '/category/Programming';
+const String _MORALITY_CATEGORY = _BASE_URL + '/category/Dark';
 const String _NO_POLITICS = '?blacklistFlags=political';
 const String _GENERAL_CATEGORY = _BASE_URL + '/category/Miscellaneous';
 
