@@ -26,8 +26,7 @@ class Repository {
   }
 
   Future<Result<Advice>> getRandomAdvice() async {
-    Configs configs = await getConfigs();
-    return _adviceProvider.getRandomAdvice(configs: configs);
+    return _adviceProvider.getRandomAdvice();
   }
 
   Future<List<Advice>> getAdvicesHistory() async {

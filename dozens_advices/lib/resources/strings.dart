@@ -1,5 +1,4 @@
-
-class Strings{
+class Strings {
   Strings._internal();
 
   //general
@@ -19,13 +18,17 @@ class Strings{
   static final String factHome = "Fact\n\n";
   static final String tapToStartHome = "To start just tap the button below!";
   static final String getAnythingButtonHome = "Get anything!";
-  static final String configureTipHome = "You are also may to configure app to get a specific content according to your preferences.";
+  static final String configureTipHome =
+      "You are also may to configure app to get a specific content according to your preferences.";
   static final String somethingElseButtonHome = "Something else!";
+  static final String tryAgainButtonHome = "Try again!";
   static final String createdAtAdviceHome = "Created at:";
   static final String viewsAdviceHome = "Views";
   static final String lastSeenAdviceHome = "Last seen:";
 
   //history
+  static final String emptyHistory = "Your history is empty for now.";
+  static final String fixItUpHistory = "Fix it up!";
   static final String sortMostRecentHistory = "Most recent";
   static final String sortTheOldestHistory = "The oldest";
   static final String sortMostPopularHistory = "Most popular";
@@ -35,6 +38,9 @@ class Strings{
   static final String filterOnlyJokesHistory = "Only jokes";
   static final String filterOnlyQuotesHistory = "Only quotes";
   static final String filterOnlyFactsHistory = "Only facts";
+
+  //feature
+  static final String favouriteEmpty = "Your favorites list is empty.";
 
   //configure
   static final String frequencyContentTypeConfigure = "Here you can adjust the frequency of the content type.";
@@ -48,4 +54,3 @@ class Strings{
   static final String nerdConfigure = "<\/code\?\>";
   static final String monkeyConfigure = "monkey";
 }
-

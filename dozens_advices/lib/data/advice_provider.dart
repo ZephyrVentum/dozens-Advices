@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:dozens_advices/bloc/configure/configure_state.dart';
 import 'package:dozens_advices/data/database/advice.dart';
 import 'package:dozens_advices/data/database/database.dart';
+import 'package:dozens_advices/data/database/storage.dart' as storage;
 import 'package:dozens_advices/data/network/network_service.dart';
 import 'package:dozens_advices/data/repository.dart';
 
@@ -23,7 +24,8 @@ class AdviceProvider {
     return _adviceProvider;
   }
 
-  Future<Result<Advice>> getRandomAdvice({Configs configs, int attempt = 0}) {
+  Future<Result<Advice>> getRandomAdvice({int attempt = 0}) async {
+    Configs configs = await storage.getConfigs();
     double bound = configs.morality + configs.politics + configs.geek;
     double generalTypeAdvicesFrequency = bound * 0.25;
     bound += generalTypeAdvicesFrequency;
@@ -68,11 +70,11 @@ class AdviceProvider {
   }
 
   Future<Result<Advice>> getPoliticsAdvice(int attempt) async {
-    int randomValue = 0;//Random().nextInt(2);
+    int randomValue = 0; //Random().nextInt(2);
     var networkResult;
     switch (randomValue) {
       case 0:
-        networkResult = await _networkService.getSV443GeneralAdvice(noPolitics: false);
+        networkResult= await _networkService.getSV443GeneralAdvice(noPolitics: false);
         break;
     }
     return await _complete(networkResult, attempt);

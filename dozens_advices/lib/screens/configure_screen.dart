@@ -22,16 +22,29 @@ class _ConfigureScreenState extends State<ConfigureScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder(
-        bloc: _configureBloc,
-        builder: (_, state) {
-          switch (state.runtimeType) {
-            case InitialConfigureState:
-              return buildConfigureState((state as InitialConfigureState).configs);
-            default:
-              return buildConfigureState(Configs());
-          }
-        });
+    return Stack(
+      children: <Widget>[
+        Positioned(
+          bottom: 0,
+          right: 0,
+          child: Image.asset(
+            'assets/images/settings_tile.png',
+            fit: BoxFit.fill,
+            width: MediaQuery.of(context).size.width / 1.8,
+          ),
+        ),
+        BlocBuilder(
+            bloc: _configureBloc,
+            builder: (_, state) {
+              switch (state.runtimeType) {
+                case InitialConfigureState:
+                  return buildConfigureState((state as InitialConfigureState).configs);
+                default:
+                  return buildConfigureState(Configs());
+              }
+            })
+      ],
+    );
   }
 
   Widget buildConfigureState(Configs configs) {
@@ -66,7 +79,7 @@ class _ConfigureScreenState extends State<ConfigureScreen> {
             _configureBloc.dispatch(GeekConfigureEvent(value));
           }),
           Padding(
-            padding: const EdgeInsets.only(left: 18),
+            padding: const EdgeInsets.only(left: 18, bottom: 8),
             child: Align(
               alignment: Alignment.centerLeft,
               child: Row(

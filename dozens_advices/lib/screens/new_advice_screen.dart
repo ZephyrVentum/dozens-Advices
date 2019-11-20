@@ -7,6 +7,7 @@ import 'package:dozens_advices/widgets/progress_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
+import 'package:share/share.dart';
 
 class NewAdviceScreen extends StatefulWidget {
   @override
@@ -25,22 +26,35 @@ class _NewAdviceScreenState extends State<NewAdviceScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder(
-        bloc: _newAdviceBloc,
-        builder: (BuildContext context, NewAdviceState state) {
-          switch (state.runtimeType) {
-            case InitialNewAdviceState:
-              return buildInitialState();
-            case LoadingNewAdviceState:
-              return buildLoadingState();
-            case NotLoadedAdviceState:
-              return buildNotLoadedState((state as NotLoadedAdviceState).error);
-            case LoadedAdviceState:
-              return buildLoadedState((state as LoadedAdviceState).advice);
-            default:
-              return Container();
-          }
-        });
+    return Stack(
+      children: <Widget>[
+        Positioned(
+          bottom: 0,
+          right: 0,
+          child: Image.asset(
+            'assets/images/idea_tile.png',
+            fit: BoxFit.fill,
+            width: MediaQuery.of(context).size.width / 1.75,
+          ),
+        ),
+        BlocBuilder(
+            bloc: _newAdviceBloc,
+            builder: (BuildContext context, NewAdviceState state) {
+              switch (state.runtimeType) {
+                case InitialNewAdviceState:
+                  return buildInitialState();
+                case LoadingNewAdviceState:
+                  return buildLoadingState();
+                case NotLoadedAdviceState:
+                  return buildNotLoadedState((state as NotLoadedAdviceState).error);
+                case LoadedAdviceState:
+                  return buildLoadedState((state as LoadedAdviceState).advice);
+                default:
+                  return Container();
+              }
+            })
+      ],
+    );
   }
 
   String getImagePath(Advice advice) {
@@ -72,17 +86,36 @@ class _NewAdviceScreenState extends State<NewAdviceScreen> {
                   mainAxisSize: MainAxisSize.min,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: <Widget>[
-                    Padding(
-                      padding: const EdgeInsets.only(bottom: 20, top: 20),
-                      child: Row(
-                          mainAxisSize: MainAxisSize.min,
-                          crossAxisAlignment: CrossAxisAlignment.end,
-                          children: <Widget>[
-                            Image(image: AssetImage(getImagePath(advice))),
-                            Text(advice.type.substring(1, advice.type.length),
-                                style: Styles.infoTextStyleHighlighted(context)
-                                    .copyWith(letterSpacing: 1.3, fontSize: 34)),
-                          ]),
+                    Stack(
+                      children: <Widget>[
+                        Padding(
+                          padding: const EdgeInsets.only(bottom: 20, top: 20),
+                          child: Row(
+                              mainAxisSize: MainAxisSize.max,
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.end,
+                              children: <Widget>[
+                                Image(image: AssetImage(getImagePath(advice))),
+                                Text(advice.type.substring(1, advice.type.length),
+                                    style: Styles.infoTextStyleHighlighted(context)
+                                        .copyWith(letterSpacing: 1.3, fontSize: 34)),
+                              ]),
+                        ),
+                        Positioned(
+                            top: 16,
+                            right: 16,
+                            child: RaisedGradientButton(
+                              onPressed: () {
+                                Share.share(advice.mainContent +
+                                    '\n\nFind something interesting too with https://github.com/ZephyrVentum/dozens-Advices');
+                              },
+                              child: Icon(
+                                Icons.share,
+                                color: Colors.black,
+                              ),
+                              gradient: LinearGradient(colors: [Styles.startGradientColor, Styles.endGradientColor]),
+                            )),
+                      ],
                     ),
                     Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -93,19 +126,16 @@ class _NewAdviceScreenState extends State<NewAdviceScreen> {
                           children: <Widget>[
                             Row(
                               children: <Widget>[
-                                Icon(Icons.today,
-                                    color: Styles.averageGradientColor),
+                                Icon(Icons.today, color: Styles.averageGradientColor),
                                 Text(
                                   Strings.createdAtAdviceHome,
-                                  style: Styles.infoTextStyleHighlighted(context)
-                                      .copyWith(fontSize: 15),
+                                  style: Styles.infoTextStyleHighlighted(context).copyWith(fontSize: 15),
                                 )
                               ],
                             ),
                             Text(
                               dateFormatter
-                                  .format(DateTime.fromMicrosecondsSinceEpoch(
-                                      advice.createdAt))
+                                  .format(DateTime.fromMicrosecondsSinceEpoch(advice.createdAt))
                                   .replaceAll("PM", "pm")
                                   .replaceAll("AM", "am"),
                               style: Styles.advicesListDateTextStyle(context),
@@ -116,17 +146,13 @@ class _NewAdviceScreenState extends State<NewAdviceScreen> {
                           children: <Widget>[
                             Row(
                               children: <Widget>[
-                                Icon(Icons.visibility,
-                                    color: Styles.averageGradientColor),
+                                Icon(Icons.visibility, color: Styles.averageGradientColor),
                                 Text(Strings.viewsAdviceHome,
-                                    style:
-                                        Styles.infoTextStyleHighlighted(context)
-                                            .copyWith(fontSize: 15))
+                                    style: Styles.infoTextStyleHighlighted(context).copyWith(fontSize: 15))
                               ],
                             ),
                             Text(advice.views.toString(),
-                                style: Styles.advicesListDateTextStyle(context)
-                                    .copyWith(fontSize: 20))
+                                style: Styles.advicesListDateTextStyle(context).copyWith(fontSize: 20))
                           ],
                         ),
                         Column(
@@ -134,18 +160,14 @@ class _NewAdviceScreenState extends State<NewAdviceScreen> {
                           children: <Widget>[
                             Row(
                               children: <Widget>[
-                                Icon(Icons.date_range,
-                                    color: Styles.averageGradientColor),
+                                Icon(Icons.date_range, color: Styles.averageGradientColor),
                                 Text(Strings.lastSeenAdviceHome,
-                                    style:
-                                        Styles.infoTextStyleHighlighted(context)
-                                            .copyWith(fontSize: 15))
+                                    style: Styles.infoTextStyleHighlighted(context).copyWith(fontSize: 15))
                               ],
                             ),
                             Text(
                               dateFormatter
-                                  .format(DateTime.fromMicrosecondsSinceEpoch(
-                                      advice.viewedAt))
+                                  .format(DateTime.fromMicrosecondsSinceEpoch(advice.viewedAt))
                                   .replaceAll("PM", "pm")
                                   .replaceAll("AM", "am"),
                               style: Styles.advicesListDateTextStyle(context),
@@ -153,31 +175,25 @@ class _NewAdviceScreenState extends State<NewAdviceScreen> {
                             )
                           ],
                         )
-//            Icon(Icons.date_range)
                       ],
                     ),
                     Container(
                       height: 1,
                       color: Theme.of(context).dividerColor,
-                      margin: const EdgeInsets.symmetric(
-                          horizontal: 16, vertical: 16),
+                      margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
                     ),
                     Padding(
                       padding: const EdgeInsets.only(left: 16, right: 16),
                       child: Text(
                         advice.mainContent,
-                        style: Theme.of(context)
-                            .textTheme
-                            .display2
-                            .copyWith(fontSize: 35),
+                        style: Theme.of(context).textTheme.display2.copyWith(fontSize: 35),
                         textAlign: TextAlign.center,
                       ),
                     ),
                     Container(
                       height: 1,
                       color: Theme.of(context).dividerColor,
-                      margin: const EdgeInsets.symmetric(
-                          horizontal: 16, vertical: 16),
+                      margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
                       padding: const EdgeInsets.only(bottom: 20),
                     ),
                     Row(
@@ -192,38 +208,24 @@ class _NewAdviceScreenState extends State<NewAdviceScreen> {
                             Icons.volume_up,
                             color: Colors.black,
                           ),
-                          gradient: LinearGradient(colors: [
-                            Styles.startGradientColor,
-                            Styles.endGradientColor
-                          ]),
+                          gradient: LinearGradient(colors: [Styles.startGradientColor, Styles.endGradientColor]),
                         ),
                         RaisedGradientButton(
                           onPressed: () {
                             _newAdviceBloc.dispatch(LoadNewEvent());
                           },
-                          child: Text(Strings.somethingElseButtonHome,
-                              style: Styles.buttonTextStyle(context)),
-                          gradient: LinearGradient(colors: [
-                            Styles.startGradientColor,
-                            Styles.endGradientColor
-                          ]),
+                          child: Text(Strings.somethingElseButtonHome, style: Styles.buttonTextStyle(context)),
+                          gradient: LinearGradient(colors: [Styles.startGradientColor, Styles.endGradientColor]),
                         ),
                         RaisedGradientButton(
                           onPressed: () {
                             _newAdviceBloc.dispatch(MarkAsFavouriteEvent(advice));
                           },
                           child: Icon(
-                            advice.isFavourite
-                                ? Icons.favorite
-                                : Icons.favorite_border,
-                            color: advice.isFavourite
-                                ? Colors.red.shade900
-                                : Colors.black,
+                            advice.isFavourite ? Icons.favorite : Icons.favorite_border,
+                            color: advice.isFavourite ? Colors.red.shade900 : Colors.black,
                           ),
-                          gradient: LinearGradient(colors: [
-                            Styles.startGradientColor,
-                            Styles.endGradientColor
-                          ]),
+                          gradient: LinearGradient(colors: [Styles.startGradientColor, Styles.endGradientColor]),
                         )
                       ],
                     ),
@@ -235,8 +237,28 @@ class _NewAdviceScreenState extends State<NewAdviceScreen> {
         ),
       );
 
-  Widget buildNotLoadedState(dynamic error) =>
-      Center(child: Text("Ups.\n Something went wrong."));
+  Widget buildNotLoadedState(dynamic error) => Center(
+          child: SingleChildScrollView(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: <Widget>[
+            Text(error.toString(), textAlign: TextAlign.center, style: Styles.infoTextStyle(context)),
+            const SizedBox(
+              height: 8,
+            ),
+            RaisedGradientButton(
+              onPressed: () {
+                _newAdviceBloc.dispatch(LoadNewEvent());
+              },
+              child: Text(Strings.tryAgainButtonHome, style: Styles.buttonTextStyle(context)),
+              gradient: LinearGradient(colors: [Styles.startGradientColor, Styles.endGradientColor]),
+            ),
+            const SizedBox(
+              height: 8,
+            ),
+          ],
+        ),
+      ));
 
   Widget buildLoadingState() => Center(child: ProgressBar());
 
@@ -250,27 +272,16 @@ class _NewAdviceScreenState extends State<NewAdviceScreen> {
               mainAxisAlignment: MainAxisAlignment.center,
               mainAxisSize: MainAxisSize.min,
               children: <Widget>[
-                Text(Strings.welcomeHome,
-                    style: Styles.regularLogoTextStyle(context)),
+                Text(Strings.welcomeHome, style: Styles.regularLogoTextStyle(context)),
                 const SizedBox(width: 1, height: 36),
                 RichText(
                   textAlign: TextAlign.center,
                   text: TextSpan(children: [
-                    TextSpan(
-                        text: Strings.descriptionHome,
-                        style: Styles.infoTextStyle(context)),
-                    TextSpan(
-                        text: Strings.spansHome,
-                        style: Styles.infoTextStyleHighlighted(context)),
-                    TextSpan(
-                        text: Strings.orHome,
-                        style: Styles.infoTextStyle(context)),
-                    TextSpan(
-                        text: Strings.factHome,
-                        style: Styles.infoTextStyleHighlighted(context)),
-                    TextSpan(
-                        text: Strings.tapToStartHome,
-                        style: Styles.infoTextStyle(context)),
+                    TextSpan(text: Strings.descriptionHome, style: Styles.infoTextStyle(context)),
+                    TextSpan(text: Strings.spansHome, style: Styles.infoTextStyleHighlighted(context)),
+                    TextSpan(text: Strings.orHome, style: Styles.infoTextStyle(context)),
+                    TextSpan(text: Strings.factHome, style: Styles.infoTextStyleHighlighted(context)),
+                    TextSpan(text: Strings.tapToStartHome, style: Styles.infoTextStyle(context)),
                   ]),
                 ),
                 const SizedBox(width: 1, height: 36),
@@ -278,17 +289,11 @@ class _NewAdviceScreenState extends State<NewAdviceScreen> {
                   onPressed: () {
                     _newAdviceBloc.dispatch(LoadNewEvent());
                   },
-                  child: Text(Strings.getAnythingButtonHome,
-                      style: Styles.buttonTextStyle(context)),
-                  gradient: LinearGradient(colors: [
-                    Styles.startGradientColor,
-                    Styles.endGradientColor
-                  ]),
+                  child: Text(Strings.getAnythingButtonHome, style: Styles.buttonTextStyle(context)),
+                  gradient: LinearGradient(colors: [Styles.startGradientColor, Styles.endGradientColor]),
                 ),
                 const SizedBox(width: 1, height: 36),
-                Text(Strings.configureTipHome,
-                    textAlign: TextAlign.center,
-                    style: Styles.infoTextStyle(context)),
+                Text(Strings.configureTipHome, textAlign: TextAlign.center, style: Styles.infoTextStyle(context)),
               ],
             ),
           ),
