@@ -70,11 +70,14 @@ class AdviceProvider {
   }
 
   Future<Result<Advice>> getPoliticsAdvice(int attempt) async {
-    int randomValue = 0; //Random().nextInt(2);
+    int randomValue = Random().nextInt(2);
     var networkResult;
     switch (randomValue) {
       case 0:
-        networkResult= await _networkService.getSV443GeneralAdvice(noPolitics: false);
+        networkResult = await _networkService.getSV443GeneralAdvice(noPolitics: false);
+        break;
+      case 1:
+        networkResult = await _networkService.getTrumpThinkQuote();
         break;
     }
     return await _complete(networkResult, attempt);
@@ -109,5 +112,8 @@ class AdviceProvider {
     }
   }
 
-  Future<bool> _isValid(Advice advice) async => await _database.getExistingAdvice(advice) == null;
+  Future<bool> _isValid(Advice advice) async {
+    Advice existingAdvice = await _database.getExistingAdvice(advice);
+    return (existingAdvice == null) || (existingAdvice.mainContent != advice.mainContent);
+  }
 }

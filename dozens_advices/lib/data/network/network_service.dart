@@ -1,6 +1,7 @@
 import 'package:dozens_advices/data/database/advice.dart';
 import 'package:dozens_advices/data/network/slip_advice.dart';
 import 'package:dozens_advices/data/network/sv443.dart';
+import 'package:dozens_advices/data/network/trump_think.dart';
 import 'package:http/http.dart';
 
 const SUCCESS_CODE = 200;
@@ -36,6 +37,10 @@ class NetworkService {
   Future<NetworkResult<Sv443Response>> getSV443GeneralAdvice({bool noPolitics = false}) {
     return _networkManager.getSv443NetworkManager().getGeneralAdvice(noPolitics: noPolitics);
   }
+
+  Future<NetworkResult<TrumpThinkResponse>> getTrumpThinkQuote() {
+    return _networkManager.getTrumpThinkNetworkManager().getRandomQuote();
+  }
 }
 
 class NetworkManager {
@@ -43,6 +48,7 @@ class NetworkManager {
 
   SlipAdviceNetworkManager _slipAdviceNetworkManager;
   Sv443NetworkManager _sv443networkManager;
+  TrumpThinkNetworkManager _trumpThinkNetworkManager;
 
   NetworkManager._internal();
 
@@ -66,6 +72,13 @@ class NetworkManager {
     }
     return _sv443networkManager;
   }
+
+  TrumpThinkNetworkManager getTrumpThinkNetworkManager() {
+    if (_trumpThinkNetworkManager == null) {
+      _trumpThinkNetworkManager = TrumpThinkNetworkManager();
+    }
+    return _trumpThinkNetworkManager;
+  }
 }
 
 abstract class NetworkResult<T> {}
@@ -83,8 +96,7 @@ class FailureNetworkResult<T> extends NetworkResult<T> {
 }
 
 mixin CanMakeNetworkRequest<T extends Advisable> {
-  Future<NetworkResult<T>> makeRequest(
-      Future<Response> networkCall, T Function(Response) onParse) async {
+  Future<NetworkResult<T>> makeRequest(Future<Response> networkCall, T Function(Response) onParse) async {
     try {
       final response = await networkCall;
       if (response.statusCode == SUCCESS_CODE) {

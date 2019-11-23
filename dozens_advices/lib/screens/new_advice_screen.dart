@@ -105,6 +105,8 @@ class _NewAdviceScreenState extends State<NewAdviceScreen> {
                             top: 16,
                             right: 16,
                             child: RaisedGradientButton(
+                              width: 40,
+                              height: 40,
                               onPressed: () {
                                 Share.share(advice.mainContent +
                                     '\n\nFind something interesting too with https://github.com/ZephyrVentum/dozens-Advices');

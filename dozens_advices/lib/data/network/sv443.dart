@@ -21,12 +21,12 @@ class Sv443Response extends Advisable {
   Sv443Response._internal({this.category, this.type, this.setup, this.delivery, this.joke, this.id});
 
   factory Sv443Response.fromJson(Map<String, dynamic> json) => Sv443Response._internal(
-      category: json[category_key],
-      type: json[type_key],
-      setup: json[setup_key],
-      delivery: json[delivery_key],
-      joke: json[joke_key],
-      id: json[id_key]);
+      category: json[_category_key],
+      type: json[_type_key],
+      setup: json[_setup_key],
+      delivery: json[_delivery_key],
+      joke: json[_joke_key],
+      id: json[_id_key]);
 
   @override
   Advice toAdvice() {
@@ -46,12 +46,12 @@ class Sv443Response extends Advisable {
         viewedAt: DateTime.now().microsecondsSinceEpoch);
   }
 
-  static const category_key = "category";
-  static const type_key = "type";
-  static const setup_key = "setup";
-  static const delivery_key = "delivery";
-  static const joke_key = "joke";
-  static const id_key = "id";
+  static const _category_key = "category";
+  static const _type_key = "type";
+  static const _setup_key = "setup";
+  static const _delivery_key = "delivery";
+  static const _joke_key = "joke";
+  static const _id_key = "id";
 }
 
 class Sv443NetworkManager with CanMakeNetworkRequest<Sv443Response> {
