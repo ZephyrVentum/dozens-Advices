@@ -2,6 +2,7 @@ import 'package:dozens_advices/data/database/advice.dart';
 import 'package:dozens_advices/data/network/slip_advice.dart';
 import 'package:dozens_advices/data/network/sv443.dart';
 import 'package:dozens_advices/data/network/trump_think.dart';
+import 'package:dozens_advices/data/network/useless_facts.dart';
 import 'package:http/http.dart';
 
 const SUCCESS_CODE = 200;
@@ -41,6 +42,10 @@ class NetworkService {
   Future<NetworkResult<TrumpThinkResponse>> getTrumpThinkQuote() {
     return _networkManager.getTrumpThinkNetworkManager().getRandomQuote();
   }
+
+  Future<NetworkResult<UselessFactsResponse>> getUselessFact() {
+    return _networkManager.getUselessFactsNetworkManager().getUselessFact();
+  }
 }
 
 class NetworkManager {
@@ -49,6 +54,7 @@ class NetworkManager {
   SlipAdviceNetworkManager _slipAdviceNetworkManager;
   Sv443NetworkManager _sv443networkManager;
   TrumpThinkNetworkManager _trumpThinkNetworkManager;
+  UselessFactsNetworkManager _uselessFactsNetworkManager;
 
   NetworkManager._internal();
 
@@ -78,6 +84,13 @@ class NetworkManager {
       _trumpThinkNetworkManager = TrumpThinkNetworkManager();
     }
     return _trumpThinkNetworkManager;
+  }
+
+  UselessFactsNetworkManager getUselessFactsNetworkManager() {
+    if (_uselessFactsNetworkManager == null) {
+      _uselessFactsNetworkManager = UselessFactsNetworkManager();
+    }
+    return _uselessFactsNetworkManager;
   }
 }
 
