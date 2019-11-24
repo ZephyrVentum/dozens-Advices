@@ -1,9 +1,10 @@
 import 'package:dozens_advices/data/database/advice.dart';
-import 'package:dozens_advices/data/network/slip_advice.dart';
-import 'package:dozens_advices/data/network/sv443.dart';
-import 'package:dozens_advices/data/network/tronald_dump.dart';
-import 'package:dozens_advices/data/network/trump_think.dart';
-import 'package:dozens_advices/data/network/useless_facts.dart';
+import 'package:dozens_advices/data/network/source/kanye_rest.dart';
+import 'package:dozens_advices/data/network/source/slip_advice.dart';
+import 'package:dozens_advices/data/network/source/sv443.dart';
+import 'package:dozens_advices/data/network/source/tronald_dump.dart';
+import 'package:dozens_advices/data/network/source/trump_think.dart';
+import 'package:dozens_advices/data/network/source/useless_facts.dart';
 import 'package:http/http.dart';
 
 const SUCCESS_CODE = 200;
@@ -51,6 +52,10 @@ class NetworkService {
   Future<NetworkResult<TronaldDumpResponse>> getTronaldDumpQuote() {
     return _networkManager.getTronaldDumpNetworkManager().getRandomQuote();
   }
+
+  Future<NetworkResult<KanyeRestResponse>> getKanyeWestQuote() {
+    return _networkManager.getKanyeRestNetworkManager().getQuote();
+  }
 }
 
 class NetworkManager {
@@ -61,6 +66,7 @@ class NetworkManager {
   TrumpThinkNetworkManager _trumpThinkNetworkManager;
   UselessFactsNetworkManager _uselessFactsNetworkManager;
   TronaldDumpNetworkManager _tronaldDumpNetworkManager;
+  KanyeRestNetworkManager _kanyeRestNetworkManager;
 
   NetworkManager._internal();
 
@@ -104,6 +110,13 @@ class NetworkManager {
       _tronaldDumpNetworkManager = TronaldDumpNetworkManager();
     }
     return _tronaldDumpNetworkManager;
+  }
+
+  KanyeRestNetworkManager getKanyeRestNetworkManager() {
+    if (_kanyeRestNetworkManager == null) {
+      _kanyeRestNetworkManager = KanyeRestNetworkManager();
+    }
+    return _kanyeRestNetworkManager;
   }
 }
 

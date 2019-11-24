@@ -48,16 +48,17 @@ class AdviceProvider {
     List<Future<NetworkResult<Advisable>> Function()> endPoints = [
       () async => await _networkService.getSlipAdvice(),
       () async => await _networkService.getSV443GeneralAdvice(noPolitics: noPolitics),
-      () async => await _networkService.getUselessFact()
+      () async => await _networkService.getUselessFact(),
+      () async => await _networkService.getKanyeWestQuote(),
     ];
-    return await _complete(await endPoints[Random().nextInt(endPoints.length)](), attempt);
+    return await _complete(endPoints[Random().nextInt(endPoints.length)], attempt);
   }
 
   Future<Result<Advice>> getMoralityAdvice(int attempt, {bool noPolitics = false}) async {
     List<Future<NetworkResult<Advisable>> Function()> endPoints = [
       () async => await _networkService.getSV443MoralityAdvice(noPolitics: noPolitics)
     ];
-    return await _complete(await endPoints[Random().nextInt(endPoints.length)](), attempt);
+    return await _complete(endPoints[Random().nextInt(endPoints.length)], attempt);
   }
 
   Future<Result<Advice>> getPoliticsAdvice(int attempt) async {
@@ -66,31 +67,37 @@ class AdviceProvider {
       () async => await _networkService.getTrumpThinkQuote(),
       () async => await _networkService.getTronaldDumpQuote()
     ];
-    return await _complete(await endPoints[Random().nextInt(endPoints.length)](), attempt);
+    return await _complete(endPoints[Random().nextInt(endPoints.length)], attempt);
   }
 
   Future<Result<Advice>> getGeekAdvice(int attempt, {bool noPolitics = false}) async {
     List<Future<NetworkResult<Advisable>> Function()> endPoints = [
       () async => await _networkService.getSV443GeekAdvice(noPolitics: noPolitics)
     ];
-    return await _complete(await endPoints[Random().nextInt(endPoints.length)](), attempt);
+    return await _complete(endPoints[Random().nextInt(endPoints.length)], attempt);
   }
 
-  Future<Result<Advice>> _complete<I extends NetworkResult<Advisable>>(NetworkResult networkResult, attempt) async {
-    if (networkResult is SuccessNetworkResult) {
-      Advice advice = networkResult.data.toAdvice();
-      if (await _isValid(advice)) {
-        await _database.insertOrUpdateAdvice(advice);
-        return SuccessResult(advice);
-      } else if (attempt < _MAX_ATTEMPTS_TO_GET_ADVICE) {
-        return getRandomAdvice(attempt: ++attempt);
+  Future<Result<Advice>> _complete<I extends NetworkResult<Advisable>>(
+      Future<NetworkResult<Advisable>> Function() endPoint, attempt) async {
+    try {
+      NetworkResult networkResult = await endPoint();
+      if (networkResult is SuccessNetworkResult) {
+        Advice advice = networkResult.data.toAdvice();
+        if (await _isValid(advice)) {
+          await _database.insertOrUpdateAdvice(advice);
+          return SuccessResult(advice);
+        } else if (attempt < _MAX_ATTEMPTS_TO_GET_ADVICE) {
+          return getRandomAdvice(attempt: ++attempt);
+        } else {
+          return ErrorResult('Sorry. No data for you =(');
+        }
+      } else if (networkResult is FailureNetworkResult) {
+        return ErrorResult(networkResult.error);
       } else {
-        return ErrorResult('Sorry. No data for you =(');
+        return ErrorResult('Ups. Something went wrong.');
       }
-    } else if (networkResult is FailureNetworkResult) {
-      return ErrorResult(networkResult.error);
-    } else {
-      return ErrorResult('Ups. Something went wrong.');
+    } catch (e) {
+      return ErrorResult(e.toString());
     }
   }
 
