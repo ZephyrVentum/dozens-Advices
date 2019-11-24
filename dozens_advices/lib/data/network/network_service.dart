@@ -1,6 +1,7 @@
 import 'package:dozens_advices/data/database/advice.dart';
 import 'package:dozens_advices/data/network/slip_advice.dart';
 import 'package:dozens_advices/data/network/sv443.dart';
+import 'package:dozens_advices/data/network/tronald_dump.dart';
 import 'package:dozens_advices/data/network/trump_think.dart';
 import 'package:dozens_advices/data/network/useless_facts.dart';
 import 'package:http/http.dart';
@@ -46,6 +47,10 @@ class NetworkService {
   Future<NetworkResult<UselessFactsResponse>> getUselessFact() {
     return _networkManager.getUselessFactsNetworkManager().getUselessFact();
   }
+
+  Future<NetworkResult<TronaldDumpResponse>> getTronaldDumpQuote() {
+    return _networkManager.getTronaldDumpNetworkManager().getRandomQuote();
+  }
 }
 
 class NetworkManager {
@@ -55,6 +60,7 @@ class NetworkManager {
   Sv443NetworkManager _sv443networkManager;
   TrumpThinkNetworkManager _trumpThinkNetworkManager;
   UselessFactsNetworkManager _uselessFactsNetworkManager;
+  TronaldDumpNetworkManager _tronaldDumpNetworkManager;
 
   NetworkManager._internal();
 
@@ -91,6 +97,13 @@ class NetworkManager {
       _uselessFactsNetworkManager = UselessFactsNetworkManager();
     }
     return _uselessFactsNetworkManager;
+  }
+
+  TronaldDumpNetworkManager getTronaldDumpNetworkManager() {
+    if (_tronaldDumpNetworkManager == null) {
+      _tronaldDumpNetworkManager = TronaldDumpNetworkManager();
+    }
+    return _tronaldDumpNetworkManager;
   }
 }
 

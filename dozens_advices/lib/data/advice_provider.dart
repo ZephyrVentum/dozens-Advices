@@ -55,22 +55,23 @@ class AdviceProvider {
 
   Future<Result<Advice>> getMoralityAdvice(int attempt, {bool noPolitics = false}) async {
     List<Future<NetworkResult<Advisable>> Function()> endPoints = [
-          () async => await _networkService.getSV443MoralityAdvice(noPolitics: noPolitics)
+      () async => await _networkService.getSV443MoralityAdvice(noPolitics: noPolitics)
     ];
     return await _complete(await endPoints[Random().nextInt(endPoints.length)](), attempt);
   }
 
   Future<Result<Advice>> getPoliticsAdvice(int attempt) async {
     List<Future<NetworkResult<Advisable>> Function()> endPoints = [
-          () async => await _networkService.getSV443GeneralAdvice(noPolitics: false),
-          () async => await _networkService.getTrumpThinkQuote()
+      () async => await _networkService.getSV443GeneralAdvice(noPolitics: false),
+      () async => await _networkService.getTrumpThinkQuote(),
+      () async => await _networkService.getTronaldDumpQuote()
     ];
     return await _complete(await endPoints[Random().nextInt(endPoints.length)](), attempt);
   }
 
   Future<Result<Advice>> getGeekAdvice(int attempt, {bool noPolitics = false}) async {
     List<Future<NetworkResult<Advisable>> Function()> endPoints = [
-          () async => await _networkService.getSV443GeekAdvice(noPolitics: noPolitics)
+      () async => await _networkService.getSV443GeekAdvice(noPolitics: noPolitics)
     ];
     return await _complete(await endPoints[Random().nextInt(endPoints.length)](), attempt);
   }
