@@ -1,5 +1,6 @@
 import 'package:dozens_advices/data/database/advice.dart';
 import 'package:dozens_advices/data/network/source/15d_katz.dart';
+import 'package:dozens_advices/data/network/source/forismatic_com.dart';
 import 'package:dozens_advices/data/network/source/icndb.dart';
 import 'package:dozens_advices/data/network/source/kanye_rest.dart';
 import 'package:dozens_advices/data/network/source/numbers_facts.dart';
@@ -91,6 +92,10 @@ class NetworkService {
   Future<NetworkResult<NumberFactsResponse>> getGeekNumberFact() {
     return _networkManager.getNumberFactsNetworkManager().getGeekFact();
   }
+
+  Future<NetworkResult<ForismaticResponse>> getForismaticQuoteOrAdvice() {
+    return _networkManager.getForismaticNetworkManager().getRandomQuote();
+  }
 }
 
 class NetworkManager {
@@ -105,6 +110,7 @@ class NetworkManager {
   ICNDbNetworkManager _icnDbNetworkManager;
   D15KatzNetworkManager _d15katzNetworkManager;
   NumberFactsNetworkManager _numberFactsNetworkManager;
+  ForismaticNetworkManager _forismaticNetworkManager;
 
   NetworkManager._internal();
 
@@ -176,6 +182,13 @@ class NetworkManager {
       _numberFactsNetworkManager = NumberFactsNetworkManager();
     }
     return _numberFactsNetworkManager;
+  }
+
+  ForismaticNetworkManager getForismaticNetworkManager() {
+    if (_forismaticNetworkManager == null) {
+      _forismaticNetworkManager = ForismaticNetworkManager();
+    }
+    return _forismaticNetworkManager;
   }
 }
 

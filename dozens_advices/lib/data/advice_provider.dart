@@ -41,8 +41,7 @@ class AdviceProvider {
       return getGeekAdvice(attempt, noPolitics: configs.politics == 0);
     } else {
       return getGeneralAdvice(attempt, noPolitics: configs.politics == 0);
-    }
-  }
+    }}
 
   Future<Result<Advice>> getGeneralAdvice(int attempt, {bool noPolitics = false}) async {
     List<Future<NetworkResult<Advisable>> Function()> endPoints = [
@@ -54,6 +53,7 @@ class AdviceProvider {
       () async => await _networkService.getDateNumberFact(),
       () async => await _networkService.getTriviaNumberFact(),
       () async => await _networkService.getYearNumberFact(),
+      () async => await _networkService.getForismaticQuoteOrAdvice(),
     ];
     return await _complete(endPoints[Random().nextInt(endPoints.length)], attempt);
   }
@@ -95,7 +95,7 @@ class AdviceProvider {
           await _database.insertOrUpdateAdvice(advice);
           return SuccessResult(advice);
         } else if (attempt < _MAX_ATTEMPTS_TO_GET_ADVICE) {
-          return getRandomAdvice(attempt: ++attempt);
+          return await getRandomAdvice(attempt: attempt + 1);
         } else {
           return ErrorResult('Sorry. No data for you =(');
         }
