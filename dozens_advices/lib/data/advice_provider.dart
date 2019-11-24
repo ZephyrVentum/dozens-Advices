@@ -40,10 +40,11 @@ class AdviceProvider {
         randomValueBetweenZeroAndBound < configs.morality + configs.politics + configs.geek) {
       return getGeekAdvice(attempt, noPolitics: configs.politics == 0);
     } else {
-      return getGeneralAdvice(attempt, noPolitics: configs.politics == 0);
-    }}
+      return getGeneralAdvice(attempt, noPolitics: configs.politics == 0, noSwearing: configs.morality == 0);
+    }
+  }
 
-  Future<Result<Advice>> getGeneralAdvice(int attempt, {bool noPolitics = false}) async {
+  Future<Result<Advice>> getGeneralAdvice(int attempt, {bool noPolitics = false, bool noSwearing = false}) async {
     List<Future<NetworkResult<Advisable>> Function()> endPoints = [
       () async => await _networkService.getSlipAdvice(),
       () async => await _networkService.getSV443GeneralAdvice(noPolitics: noPolitics),
@@ -54,6 +55,7 @@ class AdviceProvider {
       () async => await _networkService.getTriviaNumberFact(),
       () async => await _networkService.getYearNumberFact(),
       () async => await _networkService.getForismaticQuoteOrAdvice(),
+      if (!noSwearing) () async => await _networkService.getBreakingBadQuote(),
     ];
     return await _complete(endPoints[Random().nextInt(endPoints.length)], attempt);
   }

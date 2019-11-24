@@ -1,5 +1,6 @@
 import 'package:dozens_advices/data/database/advice.dart';
 import 'package:dozens_advices/data/network/source/15d_katz.dart';
+import 'package:dozens_advices/data/network/source/breaking_bad.dart';
 import 'package:dozens_advices/data/network/source/forismatic_com.dart';
 import 'package:dozens_advices/data/network/source/icndb.dart';
 import 'package:dozens_advices/data/network/source/kanye_rest.dart';
@@ -96,6 +97,10 @@ class NetworkService {
   Future<NetworkResult<ForismaticResponse>> getForismaticQuoteOrAdvice() {
     return _networkManager.getForismaticNetworkManager().getRandomQuote();
   }
+
+  Future<NetworkResult<BreakingBadResponse>> getBreakingBadQuote() {
+    return _networkManager.getBreakingBadNetworkManager().getRandomQuote();
+  }
 }
 
 class NetworkManager {
@@ -111,6 +116,7 @@ class NetworkManager {
   D15KatzNetworkManager _d15katzNetworkManager;
   NumberFactsNetworkManager _numberFactsNetworkManager;
   ForismaticNetworkManager _forismaticNetworkManager;
+  BreakingBadNetworkManager _breakingBadNetworkManager;
 
   NetworkManager._internal();
 
@@ -189,6 +195,13 @@ class NetworkManager {
       _forismaticNetworkManager = ForismaticNetworkManager();
     }
     return _forismaticNetworkManager;
+  }
+
+  BreakingBadNetworkManager getBreakingBadNetworkManager() {
+    if (_breakingBadNetworkManager == null) {
+      _breakingBadNetworkManager = BreakingBadNetworkManager();
+    }
+    return _breakingBadNetworkManager;
   }
 }
 
