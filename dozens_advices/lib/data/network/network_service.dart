@@ -1,4 +1,5 @@
 import 'package:dozens_advices/data/database/advice.dart';
+import 'package:dozens_advices/data/network/source/15d_katz.dart';
 import 'package:dozens_advices/data/network/source/icndb.dart';
 import 'package:dozens_advices/data/network/source/kanye_rest.dart';
 import 'package:dozens_advices/data/network/source/slip_advice.dart';
@@ -65,6 +66,14 @@ class NetworkService {
   Future<NetworkResult<ICNDbResponse>> getICNDbMoralityJoke() {
     return _networkManager.getICNDbNetworkManager().getMoralityJoke();
   }
+
+  Future<NetworkResult<D15KatzResponse>> getD15KatzGeekJoke() {
+    return _networkManager.getD15KatzNetworkManager().getGeekJoke();
+  }
+
+  Future<NetworkResult<D15KatzResponse>> getD15KatzGeneralJoke() {
+    return _networkManager.getD15KatzNetworkManager().getGeneralJoke();
+  }
 }
 
 class NetworkManager {
@@ -77,6 +86,7 @@ class NetworkManager {
   TronaldDumpNetworkManager _tronaldDumpNetworkManager;
   KanyeRestNetworkManager _kanyeRestNetworkManager;
   ICNDbNetworkManager _icnDbNetworkManager;
+  D15KatzNetworkManager _d15katzNetworkManager;
 
   NetworkManager._internal();
 
@@ -134,6 +144,13 @@ class NetworkManager {
       _icnDbNetworkManager = ICNDbNetworkManager();
     }
     return _icnDbNetworkManager;
+  }
+
+  D15KatzNetworkManager getD15KatzNetworkManager() {
+    if (_d15katzNetworkManager == null) {
+      _d15katzNetworkManager = D15KatzNetworkManager();
+    }
+    return _d15katzNetworkManager;
   }
 }
 
