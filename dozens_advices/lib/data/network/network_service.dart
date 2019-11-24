@@ -5,6 +5,7 @@ import 'package:dozens_advices/data/network/source/forismatic_com.dart';
 import 'package:dozens_advices/data/network/source/icndb.dart';
 import 'package:dozens_advices/data/network/source/kanye_rest.dart';
 import 'package:dozens_advices/data/network/source/numbers_facts.dart';
+import 'package:dozens_advices/data/network/source/ron_swanson.dart';
 import 'package:dozens_advices/data/network/source/slip_advice.dart';
 import 'package:dozens_advices/data/network/source/sv443.dart';
 import 'package:dozens_advices/data/network/source/tronald_dump.dart';
@@ -101,6 +102,10 @@ class NetworkService {
   Future<NetworkResult<BreakingBadResponse>> getBreakingBadQuote() {
     return _networkManager.getBreakingBadNetworkManager().getRandomQuote();
   }
+
+  Future<NetworkResult<RonSwansonResponse>> getRonSwansonQuote() {
+    return _networkManager.getRonSwansonNetworkManager().getRandomQuote();
+  }
 }
 
 class NetworkManager {
@@ -117,6 +122,7 @@ class NetworkManager {
   NumberFactsNetworkManager _numberFactsNetworkManager;
   ForismaticNetworkManager _forismaticNetworkManager;
   BreakingBadNetworkManager _breakingBadNetworkManager;
+  RonSwansonNetworkManager _ronSwansonNetworkManager;
 
   NetworkManager._internal();
 
@@ -202,6 +208,13 @@ class NetworkManager {
       _breakingBadNetworkManager = BreakingBadNetworkManager();
     }
     return _breakingBadNetworkManager;
+  }
+
+  RonSwansonNetworkManager getRonSwansonNetworkManager() {
+    if (_ronSwansonNetworkManager == null) {
+      _ronSwansonNetworkManager = RonSwansonNetworkManager();
+    }
+    return _ronSwansonNetworkManager;
   }
 }
 

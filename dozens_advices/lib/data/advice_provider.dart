@@ -56,6 +56,7 @@ class AdviceProvider {
       () async => await _networkService.getYearNumberFact(),
       () async => await _networkService.getForismaticQuoteOrAdvice(),
       if (!noSwearing) () async => await _networkService.getBreakingBadQuote(),
+      if (!noSwearing) () async => await _networkService.getRonSwansonQuote(),
     ];
     return await _complete(endPoints[Random().nextInt(endPoints.length)], attempt);
   }
