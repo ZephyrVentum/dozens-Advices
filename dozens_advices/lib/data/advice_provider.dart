@@ -50,7 +50,10 @@ class AdviceProvider {
       () async => await _networkService.getSV443GeneralAdvice(noPolitics: noPolitics),
       () async => await _networkService.getUselessFact(),
       () async => await _networkService.getKanyeWestQuote(),
-      () async => await _networkService.getD15KatzGeneralJoke()
+      () async => await _networkService.getD15KatzGeneralJoke(),
+      () async => await _networkService.getDateNumberFact(),
+      () async => await _networkService.getTriviaNumberFact(),
+      () async => await _networkService.getYearNumberFact(),
     ];
     return await _complete(endPoints[Random().nextInt(endPoints.length)], attempt);
   }
@@ -76,7 +79,8 @@ class AdviceProvider {
     List<Future<NetworkResult<Advisable>> Function()> endPoints = [
       () async => await _networkService.getSV443GeekAdvice(noPolitics: noPolitics),
       () async => await _networkService.getICNDbGeekJoke(),
-      () async => await _networkService.getD15KatzGeekJoke()
+      () async => await _networkService.getD15KatzGeekJoke(),
+      () async => await _networkService.getGeekNumberFact(),
     ];
     return await _complete(endPoints[Random().nextInt(endPoints.length)], attempt);
   }

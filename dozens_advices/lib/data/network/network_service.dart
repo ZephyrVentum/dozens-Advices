@@ -2,6 +2,7 @@ import 'package:dozens_advices/data/database/advice.dart';
 import 'package:dozens_advices/data/network/source/15d_katz.dart';
 import 'package:dozens_advices/data/network/source/icndb.dart';
 import 'package:dozens_advices/data/network/source/kanye_rest.dart';
+import 'package:dozens_advices/data/network/source/numbers_facts.dart';
 import 'package:dozens_advices/data/network/source/slip_advice.dart';
 import 'package:dozens_advices/data/network/source/sv443.dart';
 import 'package:dozens_advices/data/network/source/tronald_dump.dart';
@@ -74,6 +75,22 @@ class NetworkService {
   Future<NetworkResult<D15KatzResponse>> getD15KatzGeneralJoke() {
     return _networkManager.getD15KatzNetworkManager().getGeneralJoke();
   }
+
+  Future<NetworkResult<NumberFactsResponse>> getDateNumberFact() {
+    return _networkManager.getNumberFactsNetworkManager().getDateFact();
+  }
+
+  Future<NetworkResult<NumberFactsResponse>> getYearNumberFact() {
+    return _networkManager.getNumberFactsNetworkManager().getYearFact();
+  }
+
+  Future<NetworkResult<NumberFactsResponse>> getTriviaNumberFact() {
+    return _networkManager.getNumberFactsNetworkManager().getTriviaFact();
+  }
+
+  Future<NetworkResult<NumberFactsResponse>> getGeekNumberFact() {
+    return _networkManager.getNumberFactsNetworkManager().getGeekFact();
+  }
 }
 
 class NetworkManager {
@@ -87,6 +104,7 @@ class NetworkManager {
   KanyeRestNetworkManager _kanyeRestNetworkManager;
   ICNDbNetworkManager _icnDbNetworkManager;
   D15KatzNetworkManager _d15katzNetworkManager;
+  NumberFactsNetworkManager _numberFactsNetworkManager;
 
   NetworkManager._internal();
 
@@ -151,6 +169,13 @@ class NetworkManager {
       _d15katzNetworkManager = D15KatzNetworkManager();
     }
     return _d15katzNetworkManager;
+  }
+
+  NumberFactsNetworkManager getNumberFactsNetworkManager() {
+    if (_numberFactsNetworkManager == null) {
+      _numberFactsNetworkManager = NumberFactsNetworkManager();
+    }
+    return _numberFactsNetworkManager;
   }
 }
 
