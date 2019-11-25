@@ -7,6 +7,7 @@ import 'package:dozens_advices/data/network/source/kanye_rest.dart';
 import 'package:dozens_advices/data/network/source/numbers_facts.dart';
 import 'package:dozens_advices/data/network/source/ron_swanson.dart';
 import 'package:dozens_advices/data/network/source/slip_advice.dart';
+import 'package:dozens_advices/data/network/source/star_wars_quotes.dart';
 import 'package:dozens_advices/data/network/source/sv443.dart';
 import 'package:dozens_advices/data/network/source/tronald_dump.dart';
 import 'package:dozens_advices/data/network/source/trump_think.dart';
@@ -106,6 +107,10 @@ class NetworkService {
   Future<NetworkResult<RonSwansonResponse>> getRonSwansonQuote() {
     return _networkManager.getRonSwansonNetworkManager().getRandomQuote();
   }
+
+  Future<NetworkResult<StarWarsQuotesResponse>> getStarWarsQuote() {
+    return _networkManager.getStarWarsQuotesNetworkManager().getRandomQuote();
+  }
 }
 
 class NetworkManager {
@@ -123,6 +128,7 @@ class NetworkManager {
   ForismaticNetworkManager _forismaticNetworkManager;
   BreakingBadNetworkManager _breakingBadNetworkManager;
   RonSwansonNetworkManager _ronSwansonNetworkManager;
+  StarWarsQuotesNetworkManager _starWarsQuotesNetworkManager;
 
   NetworkManager._internal();
 
@@ -215,6 +221,13 @@ class NetworkManager {
       _ronSwansonNetworkManager = RonSwansonNetworkManager();
     }
     return _ronSwansonNetworkManager;
+  }
+
+  StarWarsQuotesNetworkManager getStarWarsQuotesNetworkManager() {
+    if (_starWarsQuotesNetworkManager == null) {
+      _starWarsQuotesNetworkManager = StarWarsQuotesNetworkManager();
+    }
+    return _starWarsQuotesNetworkManager;
   }
 }
 

@@ -84,6 +84,7 @@ class AdviceProvider {
       () async => await _networkService.getICNDbGeekJoke(),
       () async => await _networkService.getD15KatzGeekJoke(),
       () async => await _networkService.getGeekNumberFact(),
+      () async => await _networkService.getStarWarsQuote(),
     ];
     return await _complete(endPoints[Random().nextInt(endPoints.length)], attempt);
   }
