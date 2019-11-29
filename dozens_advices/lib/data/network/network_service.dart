@@ -1,6 +1,7 @@
 import 'package:dozens_advices/data/database/advice.dart';
 import 'package:dozens_advices/data/network/source/15d_katz.dart';
 import 'package:dozens_advices/data/network/source/breaking_bad.dart';
+import 'package:dozens_advices/data/network/source/cat_facts.dart';
 import 'package:dozens_advices/data/network/source/forismatic_com.dart';
 import 'package:dozens_advices/data/network/source/icndb.dart';
 import 'package:dozens_advices/data/network/source/kanye_rest.dart';
@@ -111,6 +112,10 @@ class NetworkService {
   Future<NetworkResult<StarWarsQuotesResponse>> getStarWarsQuote() {
     return _networkManager.getStarWarsQuotesNetworkManager().getRandomQuote();
   }
+
+  Future<NetworkResult<CatFactsResponse>> getCatFact() {
+    return _networkManager.getCatFactsNetworkManager().getRandomFact();
+  }
 }
 
 class NetworkManager {
@@ -129,6 +134,7 @@ class NetworkManager {
   BreakingBadNetworkManager _breakingBadNetworkManager;
   RonSwansonNetworkManager _ronSwansonNetworkManager;
   StarWarsQuotesNetworkManager _starWarsQuotesNetworkManager;
+  CatFactsNetworkManager _catFactsNetworkManager;
 
   NetworkManager._internal();
 
@@ -228,6 +234,13 @@ class NetworkManager {
       _starWarsQuotesNetworkManager = StarWarsQuotesNetworkManager();
     }
     return _starWarsQuotesNetworkManager;
+  }
+
+  CatFactsNetworkManager getCatFactsNetworkManager() {
+    if (_catFactsNetworkManager == null) {
+      _catFactsNetworkManager = CatFactsNetworkManager();
+    }
+    return _catFactsNetworkManager;
   }
 }
 
