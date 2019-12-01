@@ -1,4 +1,7 @@
 # dozens Advices
+<div align="center">
+<img src="preview.png" alt="Download .apk file"><br>
+</div>
 
 * [Official Joke API](https://github.com/15Dkatz/official_joke_api)
 * [Breaking Bad quotes API](https://github.com/shevabam/breaking-bad-quotes)
@@ -17,9 +20,6 @@
 * [Random Useless Facts](https://uselessfacts.jsph.pl)
 
 <div align="center">
-<img src="preview.png" alt="Download .apk file"><br>
-
-<a href="https://github.com/ZephyrVentum/HoMM3-Soundboard/raw/master/dozens_advices/dozens-advices.apk">
+<a href="https://github.com/ZephyrVentum/dozens-Advices/raw/master/dozens-advices.apk">
 <img src="download.png" alt="Download .apk file" width="250">
 </a>
-</div>
