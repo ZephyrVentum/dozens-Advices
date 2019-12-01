@@ -2,6 +2,7 @@ import 'package:dozens_advices/data/database/advice.dart';
 import 'package:dozens_advices/data/network/source/15d_katz.dart';
 import 'package:dozens_advices/data/network/source/breaking_bad.dart';
 import 'package:dozens_advices/data/network/source/cat_facts.dart';
+import 'package:dozens_advices/data/network/source/chack_norris_io.dart';
 import 'package:dozens_advices/data/network/source/forismatic_com.dart';
 import 'package:dozens_advices/data/network/source/icndb.dart';
 import 'package:dozens_advices/data/network/source/kanye_rest.dart';
@@ -116,6 +117,18 @@ class NetworkService {
   Future<NetworkResult<CatFactsResponse>> getCatFact() {
     return _networkManager.getCatFactsNetworkManager().getRandomFact();
   }
+
+  Future<NetworkResult<ChuckNorrisIOResponse>> getChuckNorrisGeekJoke() {
+    return _networkManager.getChuckNorrisIONetworkManager().getGeekJoke();
+  }
+
+  Future<NetworkResult<ChuckNorrisIOResponse>> getChuckNorrisDarkJoke() {
+    return _networkManager.getChuckNorrisIONetworkManager().getDarkJoke();
+  }
+
+  Future<NetworkResult<ChuckNorrisIOResponse>> getChuckNorrisPoliticalJoke() {
+    return _networkManager.getChuckNorrisIONetworkManager().getPoliticalJoke();
+  }
 }
 
 class NetworkManager {
@@ -135,6 +148,7 @@ class NetworkManager {
   RonSwansonNetworkManager _ronSwansonNetworkManager;
   StarWarsQuotesNetworkManager _starWarsQuotesNetworkManager;
   CatFactsNetworkManager _catFactsNetworkManager;
+  ChuckNorrisIONetworkManager _chuckNorrisIONetworkManager;
 
   NetworkManager._internal();
 
@@ -241,6 +255,13 @@ class NetworkManager {
       _catFactsNetworkManager = CatFactsNetworkManager();
     }
     return _catFactsNetworkManager;
+  }
+
+  ChuckNorrisIONetworkManager getChuckNorrisIONetworkManager() {
+    if (_chuckNorrisIONetworkManager == null) {
+      _chuckNorrisIONetworkManager = ChuckNorrisIONetworkManager();
+    }
+    return _chuckNorrisIONetworkManager;
   }
 }
 
