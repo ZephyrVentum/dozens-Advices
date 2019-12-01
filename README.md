@@ -17,7 +17,7 @@
 * [Random Useless Facts](https://uselessfacts.jsph.pl)
 
 <div align="center">
-<img src="preview.png" height="1280" alt="Download .apk file"><br>
+<img src="preview.png" alt="Download .apk file"><br>
 
 <a href="https://github.com/ZephyrVentum/HoMM3-Soundboard/raw/master/dozens_advices/dozens-advices.apk">
 <img src="download.png" alt="Download .apk file" width="250">
