@@ -53,4 +53,7 @@ class Strings {
   static final String geekConfigure = "Geek";
   static final String nerdConfigure = "<\/code\?\>";
   static final String monkeyConfigure = "monkey";
+  static final String miscellaneaConfigure = 'Miscellanea';
+  static final String nopeConfigure = 'nope';
+  static final String anythingConfigure = 'anything';
 }

@@ -78,6 +78,13 @@ class _ConfigureScreenState extends State<ConfigureScreen> {
               (value) {
             _configureBloc.dispatch(GeekConfigureEvent(value));
           }),
+          SizedBox(
+            height: 20,
+          ),
+          buildSliderSection(Strings.miscellaneaConfigure, Strings.nopeConfigure, Strings.anythingConfigure, configs.miscellanea,
+                  (value) {
+                _configureBloc.dispatch(MiscellaneaConfigureEvent(value));
+              }),
           Padding(
             padding: const EdgeInsets.only(left: 18, bottom: 8),
             child: Align(

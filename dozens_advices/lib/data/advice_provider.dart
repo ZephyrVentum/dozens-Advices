@@ -26,9 +26,7 @@ class AdviceProvider {
 
   Future<Result<Advice>> getRandomAdvice({int attempt = 0}) async {
     Configs configs = await storage.getConfigs();
-    double bound = configs.morality + configs.politics + configs.geek;
-    double generalTypeAdvicesFrequency = bound * 0.25;
-    bound += generalTypeAdvicesFrequency;
+    double bound = configs.morality + configs.politics + configs.geek + configs.miscellanea;
     Random random = Random();
     double randomValueBetweenZeroAndBound = random.nextDouble() * bound;
     if (randomValueBetweenZeroAndBound >= 0 && randomValueBetweenZeroAndBound < configs.morality) {

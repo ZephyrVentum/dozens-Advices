@@ -22,6 +22,12 @@ class GeekConfigureEvent extends ConfigureEvent {
   GeekConfigureEvent(this.value);
 }
 
+class MiscellaneaConfigureEvent extends ConfigureEvent {
+  final double value;
+
+  MiscellaneaConfigureEvent(this.value);
+}
+
 class RefreshConfigureEvent extends ConfigureEvent {}
 
 class ShuffleConfigureEvent extends ConfigureEvent {}
