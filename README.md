@@ -1,8 +1,5 @@
 # dozens Advices
 
-<div align="center">
-<img src="preview.png" height="1280" alt="Download .apk file"><br>
-
 * [Official Joke API](https://github.com/15Dkatz/official_joke_api)
 * [Breaking Bad quotes API](https://github.com/shevabam/breaking-bad-quotes)
 * [Cat Facts](https://github.com/alexwohlbruck/cat-facts)
@@ -18,6 +15,9 @@
 * [TRONALDDUMP.IO](https://github.com/tronalddump-io/tronald-app)
 * [What does Trump think?](https://whatdoestrumpthink.com)
 * [Random Useless Facts](https://uselessfacts.jsph.pl)
+
+<div align="center">
+<img src="preview.png" height="1280" alt="Download .apk file"><br>
 
 <a href="https://github.com/ZephyrVentum/HoMM3-Soundboard/raw/master/dozens_advices/dozens-advices.apk">
 <img src="download.png" alt="Download .apk file" width="250">
