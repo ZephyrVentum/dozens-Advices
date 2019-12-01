@@ -29,7 +29,7 @@ class CatFactsResponse extends Advisable {
   final String id;
 
   static const String _text_key = "text";
-  static const String _id_key = "id";
+  static const String _id_key = "_id";
 }
 
 class CatFactsNetworkManager with CanMakeNetworkRequest<CatFactsResponse> {

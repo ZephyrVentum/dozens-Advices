@@ -9,7 +9,7 @@ import '../bloc.dart';
 
 class NewAdviceBloc extends Bloc<NewAdviceEvent, NewAdviceState> {
   Repository repository = Repository.getInstance();
-  FlutterTts flutterTts = new FlutterTts();
+  FlutterTts flutterTts = new FlutterTts()..setLanguage("en-US");
 
   @override
   NewAdviceState get initialState => InitialNewAdviceState();
