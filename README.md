@@ -3,6 +3,13 @@
 <img src="preview.png" alt="Download .apk file"><br>
 </div>
 
+Flutter application based on the architecture of the [Bloc Library](https://bloclibrary.dev/#/).<br>
+The app is an aggregator of jokes, advices, quotes and facts.<br>
+User able to adjust the frequency of content genres.<br>
+For example, you can configure the application to receive black humor and jokes about programming, while excluding content related to politics.
+
+### List of open-APIs which were implemented in dozens Advices app:
+
 * [Official Joke API](https://github.com/15Dkatz/official_joke_api)
 * [Breaking Bad quotes API](https://github.com/shevabam/breaking-bad-quotes)
 * [Cat Facts](https://github.com/alexwohlbruck/cat-facts)
